@@ -8,23 +8,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/startwindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="ultimatettt.gui.controller.StartWindowController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/startwindow.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ultimatettt.gui.controller.StartWindowController">
    <children>
       <VBox layoutX="120.0" layoutY="44.0" prefHeight="312.0" prefWidth="388.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="40.0">
          <children>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <Label text="ULTIMATE TIC TAC TOE">
+                  <Label id="lblTitle" text="ULTIMATE TIC TAC TOE">
                      <font>
-                        <Font name="System Bold" size="36.0" />
+                        <Font name="Cambria" size="36.0" />
                      </font>
                   </Label>
                </children>
             </StackPane>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="10000.0" text="Human VS Human" />
+                  <JFXButton fx:id="btnPVP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#playPVP" prefHeight="10000.0" prefWidth="10000.0" text="Human VS Human" />
                   <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="10000.0" text="Human VS AI" />
                   <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="10000.0" text="AI VS AI" />
                </children>
