@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Szymon
 */
 
-#grid1 {
-    -fx-border-color: black;
-    -fx-border-width: 1;
+#bigGrid {
+    -fx-grid-lines-visible: true;
+    
 }
