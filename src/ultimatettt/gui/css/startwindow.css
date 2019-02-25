@@ -9,5 +9,28 @@ and open the template in the editor.
 */
 
 #lblTitle{
-    -fx-text-fill: red;
+    
+    -fx-stroke: red;
+    -fx-stroke-width: 1;
+}
+
+
+.button{
+    -fx-wrap-text: true;
+    -fx-font-size: 20;
+    -fx-font-family: 'Luckiest Guy', cursive;
+    -fx-border-color: black;
+    -fx-border-width: 5;
+    -fx-border-radius: 20;
+    -fx-background-color: greenyellow;
+    -fx-background-radius: 22;
+}
+
+.button:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+#AnchorPane{
+    -fx-background-color: #444444;
 }
