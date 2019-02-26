@@ -25,3 +25,10 @@ and open the template in the editor.
     -fx-font-family: 'Luckiest Guy', cursive;
     -fx-text-fill: #50ff00;
 }
+.red-background{
+    -fx-background-color: red;    
+}
+
+.blueBackground{
+    -fx-background-color: blue;
+}

@@ -10,7 +10,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import ultimatettt.bll.Bot;
 import ultimatettt.bll.GameManager;
 import ultimatettt.bll.GameState;
@@ -31,6 +36,8 @@ public class MainController {
     GameManager manager;
     @FXML
     private Label mainLabel;
+    @FXML
+    private GridPane mainGride;
     
     public MainController(){
         this.gameState = new GameState();
@@ -75,6 +82,20 @@ public class MainController {
             manager = new GameManager(gameState, bot1, bot2);
         }
    }
+
+    @FXML
+    private void getElement(MouseEvent event) {
+        Node node1 = (Node) event.getSource();
+        StackPane big = (StackPane) node1.getParent();
+        Node node2 = (Node) event.getPickResult().getIntersectedNode();
+        StackPane small = (StackPane) node2;
+        String existingStyle = small.getStyle();
+        small.setStyle(existingStyle+"-fx-background-color: red;");
+        System.out.println("SmallColumn: "+GridPane.getColumnIndex(small));
+        System.out.println("SmallRow: "+GridPane.getRowIndex(small));
+        System.out.println("BigColumn: "+GridPane.getColumnIndex(big));
+        System.out.println("BigRow: "+GridPane.getRowIndex(big));
+    }
     
 }
     
