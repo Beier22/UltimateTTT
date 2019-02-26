@@ -36,15 +36,18 @@ public class StartWindowController implements Initializable {
 
     @FXML
     private void playPVP(ActionEvent event) throws IOException {
+        openGameWindow(1);
+    }
+    
+    private void openGameWindow(int i) throws IOException{
+        
         Stage st = (Stage) btnPVP.getScene().getWindow();
         st.close();
-        Stage stage = (Stage) btnPVP.getScene().getWindow(); //new Stage();
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/Main.fxml"));
+        MainController controller = loader.getController();
+        controller.setDistinguisher(i);
         stage.setScene(new Scene(loader.load()));
-//        stage.setHeight(stage.getHeight());
-//        stage.setWidth(stage.getWidth());
-//        stage.setMinHeight(600);
-//        stage.setMinWidth(800);
         stage.show();
     }
     

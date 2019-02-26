@@ -16,8 +16,11 @@ import javafx.scene.control.Label;
  *
  * @author mads_
  */
+
+
+
 public class MainController implements Initializable {
-    
+    int distinguisher;
     @FXML
     private Label label;
     
@@ -29,7 +32,11 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        if(distinguisher==1){}
     }    
+    
+    public void setDistinguisher(int i){
+        this.distinguisher=i;
+    }
     
 }
