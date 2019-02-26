@@ -33,6 +33,8 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if(distinguisher==1){}
+        else if(distinguisher==2){}
+        else{}
     }    
     
     public void setDistinguisher(int i){

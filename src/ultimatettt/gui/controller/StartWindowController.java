@@ -33,11 +33,6 @@ public class StartWindowController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-
-    @FXML
-    private void playPVP(ActionEvent event) throws IOException {
-        openGameWindow(1);
-    }
     
     private void openGameWindow(int i) throws IOException{
         
@@ -49,6 +44,20 @@ public class StartWindowController implements Initializable {
         controller.setDistinguisher(i);
         stage.setScene(new Scene(loader.load()));
         stage.show();
+    }
+    
+    @FXML
+    private void playPVP(ActionEvent event) throws IOException {
+        openGameWindow(1);
+    }
+    @FXML
+    private void playPVE(ActionEvent event) throws IOException {
+        openGameWindow(2);
+    }
+
+    @FXML
+    private void playBots(ActionEvent event) throws IOException {
+        openGameWindow(3);
     }
     
 }
