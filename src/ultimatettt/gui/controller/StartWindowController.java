@@ -43,7 +43,7 @@ public class StartWindowController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/Main.fxml"));
         Parent root = (Parent) loader.load();
         MainController controller = loader.getController();
-        controller.setDistinguisher(i);
+        controller.setGameUp(i);
         stage.setScene(new Scene(root));
         stage.show();
     }
