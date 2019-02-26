@@ -20,10 +20,13 @@
                         <Font name="Luckiest Guy Regular" size="36.0" />
                      </font>
                   </Label>
-                  <Label text="Choose Game Mode:" textFill="RED">
+                  <Label id="lblGameMode" text="Choose Game Mode:" textFill="RED">
                      <font>
                         <Font name="Luckiest Guy Regular" size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="50.0" />
+                     </VBox.margin>
                   </Label>
                   <HBox alignment="CENTER">
                      <children>

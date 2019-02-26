@@ -22,7 +22,10 @@ public class UltimateTTT extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/ultimatettt/gui/view/StartWindow.fxml"));
         
         Scene scene = new Scene(root);
-        
+        stage.setMinHeight(400);
+        stage.setMinWidth(700);
+        stage.setHeight(400);
+        stage.setWidth(700);
         stage.setScene(scene);
         stage.show();
     }
