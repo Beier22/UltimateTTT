@@ -7,10 +7,12 @@ and open the template in the editor.
     Created on : 25-02-2019, 11:22:32
     Author     : mads_
 */
-
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
 
 #lblTitle .text{
+    -fx-font-family: 'Luckiest Guy', cursive;
+    -fx-font-size: 36;
     -fx-fill: #50ff00;
     -fx-stroke: black;
     -fx-stroke-width: 2;
@@ -18,6 +20,8 @@ and open the template in the editor.
 }
 
 #lblGameMode .text{
+    -fx-font-family: 'Luckiest Guy', cursive;
+    -fx-font-size: 24;
     -fx-fill: #00ffff;
     -fx-stroke: black;
     -fx-stroke-width: 2;
@@ -35,10 +39,11 @@ and open the template in the editor.
 }
 
 .button:hover{
+    -fx-background-color: #9fff72;
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
 }
 
 #AnchorPane{
-    -fx-background-color: #444444;
+    -fx-background-color: #303030;
 }
