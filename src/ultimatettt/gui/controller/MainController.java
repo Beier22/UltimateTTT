@@ -19,26 +19,33 @@ import javafx.scene.control.Label;
 
 
 
-public class MainController implements Initializable {
-    int distinguisher;
-    @FXML
+public class MainController {
+    int distinguisher = 0;
     private Label label;
-    
     @FXML
+    private Label mainLabel;
+    
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        if(distinguisher==1){}
-        else if(distinguisher==2){}
-        else{}
-    }    
-    
     public void setDistinguisher(int i){
         this.distinguisher=i;
+        setLabel();
     }
     
-}
+    private void setLabel(){
+        if(distinguisher==1){
+                mainLabel.setText("Human vs Human");
+            }
+            else if(distinguisher==2){
+                mainLabel.setText("Human vs Bot");
+            }
+            else{
+                mainLabel.setText("Human vs Bot");
+            }
+        }    
+    }
+    
+

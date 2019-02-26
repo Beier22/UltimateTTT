@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -40,9 +41,10 @@ public class StartWindowController implements Initializable {
         st.close();
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/Main.fxml"));
+        Parent root = (Parent) loader.load();
         MainController controller = loader.getController();
         controller.setDistinguisher(i);
-        stage.setScene(new Scene(loader.load()));
+        stage.setScene(new Scene(root));
         stage.show();
     }
     
