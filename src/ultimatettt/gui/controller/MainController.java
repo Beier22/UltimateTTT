@@ -103,9 +103,11 @@ public class MainController {
         Button btn = (Button) event.getSource();
         if(isX)
         {
+            btn.getStyleClass().add("xbtn");
             btn.setText("X");
             isX = false;
         } else {
+            btn.getStyleClass().add("ybtn");
             btn.setText("O");
             isX = true;
         }
