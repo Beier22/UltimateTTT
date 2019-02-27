@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -94,9 +95,20 @@ public class MainController {
         System.out.println("BigRow: "+GridPane.getRowIndex(big));
     }
 
+    
+    boolean isX = true;
+    
     @FXML
     private void handleBtnAction(ActionEvent event) {
-        System.out.println("You clicked me!");
+        Button btn = (Button) event.getSource();
+        if(isX)
+        {
+            btn.setText("X");
+            isX = false;
+        } else {
+            btn.setText("O");
+            isX = true;
+        }
     }
     
 }
