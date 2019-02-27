@@ -22,6 +22,8 @@ import ultimatettt.bll.GameManager;
 import ultimatettt.bll.GameState;
 import ultimatettt.bll.IBot;
 import ultimatettt.bll.IGameState;
+import ultimatettt.bll.IMove;
+import ultimatettt.bll.Move;
 
 /**
  *
@@ -103,6 +105,8 @@ public class MainController {
         Button btn = (Button) event.getSource();
         int row = GridPane.getColumnIndex(btn);
         int col = GridPane.getRowIndex(btn);
+        IMove move = new Move(row, col);
+        
         
         if(isX)
         {
