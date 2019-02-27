@@ -28,7 +28,7 @@ public interface IField {
      * @return List of currently available moves
      */
     List<IMove> getAvailableMoves();
-
+    
     /**
      * Returns the player id on given column and row
      * @param column Column

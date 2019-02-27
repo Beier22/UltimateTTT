@@ -101,6 +101,9 @@ public class MainController {
     @FXML
     private void handleBtnAction(ActionEvent event) {
         Button btn = (Button) event.getSource();
+        int row = GridPane.getColumnIndex(btn);
+        int col = GridPane.getRowIndex(btn);
+        
         if(isX)
         {
             btn.getStyleClass().add("xbtn");
