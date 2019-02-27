@@ -10,7 +10,7 @@ package ultimatettt.bll;
  * @author mads_
  */
 public interface IMove {
-
+    
     int getX();
 
     int getY();

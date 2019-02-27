@@ -36,8 +36,6 @@ public class MainController {
     GameManager manager;
     @FXML
     private Label mainLabel;
-    @FXML
-    private GridPane mainGride;
     
     public MainController(){
         this.gameState = new GameState();
@@ -83,7 +81,6 @@ public class MainController {
         }
    }
 
-    @FXML
     private void getElement(MouseEvent event) {
         Node node1 = (Node) event.getSource();
         StackPane big = (StackPane) node1.getParent();
@@ -95,6 +92,11 @@ public class MainController {
         System.out.println("SmallRow: "+GridPane.getRowIndex(small));
         System.out.println("BigColumn: "+GridPane.getColumnIndex(big));
         System.out.println("BigRow: "+GridPane.getRowIndex(big));
+    }
+
+    @FXML
+    private void handleBtnAction(ActionEvent event) {
+        System.out.println("You clicked me!");
     }
     
 }

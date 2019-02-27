@@ -11,6 +11,10 @@ package ultimatettt.bll;
  */
 public class GameState implements IGameState{
 
+    private IField ifield = new Field();
+    private int moveNumber = 0;
+    private int roundNumber = 0;
+    
     @Override
     public IField getField() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
