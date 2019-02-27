@@ -5,6 +5,7 @@
  */
 package ultimatettt.bll;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,55 +13,95 @@ import java.util.List;
  * @author Revy
  */
 public class Field implements IField{
+    String[][] board;
+    String[][] macroBoard;
 
     @Override
     public void clearBoard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       for (String[] strings : board) {
+            for (String string : strings) {
+                string = EMPTY_FIELD;
+            }
+            
+        }
+       for (String[] strings : macroBoard) {
+            for (String string : strings) {
+                string = AVAILABLE_FIELD;
+            }
+            
+        }
     }
 
     @Override
     public List<IMove> getAvailableMoves() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<IMove> movesList = new ArrayList<>();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board[i][j] == AVAILABLE_FIELD){
+                    movesList.add(new Move(i, j));
+                }
+            }
+        }
+        return movesList;
     }
+    
+   
 
     @Override
     public String getPlayerId(int column, int row) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return board[row][column];
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (String[] strings : board) {
+            for (String string : strings) {
+                if(string!=EMPTY_FIELD)
+                    return false;
+            }
+            
+        }
+        return true;
     }
 
     @Override
     public boolean isFull() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (String[] strings : board) {
+            for (String string : strings) {
+                if(string==EMPTY_FIELD)
+                    return false;
+            } 
+        }
+        return true;
     }
 
     @Override
     public Boolean isInActiveMicroboard(int x, int y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(macroBoard[y/3][x/3] == AVAILABLE_FIELD)
+            return true;
+        else
+            return false;
     }
 
     @Override
     public String[][] getBoard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return board;
     }
 
     @Override
     public String[][] getMacroboard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return macroBoard;
     }
 
     @Override
     public void setBoard(String[][] board) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.board = board;
+        
     }
 
     @Override
     public void setMacroboard(String[][] macroboard) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.macroBoard = macroBoard;
     }
     
 }

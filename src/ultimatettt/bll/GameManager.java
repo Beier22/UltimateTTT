@@ -126,7 +126,10 @@ public class GameManager {
         //NOTE: should also check whether the move is placed on an occupied spot.
         System.out.println("Checking move validity against macroboard available field");
         System.out.println("Not currently checking move validity actual board");
-        return currentState.getField().isInActiveMicroboard(move.getX(), move.getY());
+        if(currentState.getField().getAvailableMoves().contains(move))   
+            return currentState.getField().isInActiveMicroboard(move.getX(), move.getY());
+        else 
+            return false;
     }
     
     private void updateBoard(IMove move)

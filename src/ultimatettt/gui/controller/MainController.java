@@ -44,10 +44,6 @@ public class MainController {
         this.gameState = new GameState();
     }
     
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
     public void setGameUp(int i){
         setDistinguisher(i);
         setLabel();
@@ -84,30 +80,15 @@ public class MainController {
         }
    }
 
-    private void getElement(MouseEvent event) {
-        Node node1 = (Node) event.getSource();
-        StackPane big = (StackPane) node1.getParent();
-        Node node2 = (Node) event.getPickResult().getIntersectedNode();
-        StackPane small = (StackPane) node2;
-        String existingStyle = small.getStyle();
-        small.setStyle(existingStyle+"-fx-background-color: red;");
-        System.out.println("SmallColumn: "+GridPane.getColumnIndex(small));
-        System.out.println("SmallRow: "+GridPane.getRowIndex(small));
-        System.out.println("BigColumn: "+GridPane.getColumnIndex(big));
-        System.out.println("BigRow: "+GridPane.getRowIndex(big));
-    }
-
-    
     boolean isX = true;
     
     @FXML
     private void handleBtnAction(ActionEvent event) {
         Button btn = (Button) event.getSource();
-        int row = GridPane.getColumnIndex(btn);
-        int col = GridPane.getRowIndex(btn);
-        IMove move = new Move(row, col);
+        IMove move = createMove(btn);
         
-        
+        System.out.println("y: "+move.getY()+" x: "+move.getX());
+ 
         if(isX)
         {
             btn.getStyleClass().add("xbtn");
@@ -120,6 +101,20 @@ public class MainController {
         }
     }
     
+   private IMove createMove(Button btn){
+        int col;
+        int row;
+        Integer int1 = GridPane.getColumnIndex(btn);
+        Integer int2 = GridPane.getRowIndex(btn);
+        if(int1!=null)
+            col = int1.intValue();
+        else
+            col = 0;
+        if(int2!=null)
+            row = int2.intValue();
+        else
+            row = 0;
+         return new Move(col, row);
+    }
 }
-    
 
