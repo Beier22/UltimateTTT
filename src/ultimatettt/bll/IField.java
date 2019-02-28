@@ -15,6 +15,7 @@ import ultimatettt.bll.IMove;
 public interface IField {
 
     String AVAILABLE_FIELD = "-1";
+    String UNAVAILABLE_FIELD = "0";
     String EMPTY_FIELD = ".";
 
     /**
@@ -74,5 +75,7 @@ public interface IField {
      * @param macroboard the Macroboard to set (the overarching 3x3 board)
      */
     void setMacroboard(String[][] macroboard);
-    
+    Boolean isMicroboardFull(int x, int y);
+    void setEveryOtherMacroBoard(int x, int y);
+    public void setActiveMacroBoard(int x, int y);
 }

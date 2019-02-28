@@ -7,6 +7,7 @@ package ultimatettt.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,11 +35,14 @@ import ultimatettt.bll.Move;
 
 public class MainController {
     int distinguisher = 0;
+    boolean isX = true;
     private Label label;
     private final IGameState gameState;
     GameManager manager;
     @FXML
     private Label mainLabel;
+    @FXML
+    private GridPane macroBoard;
     
     public MainController(){
         this.gameState = new GameState();
@@ -80,25 +84,30 @@ public class MainController {
         }
    }
 
-    boolean isX = true;
+    
     
     @FXML
     private void handleBtnAction(ActionEvent event) {
         Button btn = (Button) event.getSource();
-        IMove move = createMove(btn);
         
-        System.out.println("y: "+move.getY()+" x: "+move.getX());
+        IMove move = createMove(btn);
+        if(manager.updateGame(move)){
+            if(isX)
+            {
+                btn.getStyleClass().add("xbtn");
+                btn.setText("X");
+                isX = false;
+            } else {
+                btn.getStyleClass().add("ybtn");
+                btn.setText("O");
+                isX = true;
+            }
+        };
+        
+        String[][] mB = manager.getGameState().getField().getMacroboard();
+        setMacroBoardBorders(mB);
  
-        if(isX)
-        {
-            btn.getStyleClass().add("xbtn");
-            btn.setText("X");
-            isX = false;
-        } else {
-            btn.getStyleClass().add("ybtn");
-            btn.setText("O");
-            isX = true;
-        }
+        
     }
     
    private IMove createMove(Button btn){
@@ -116,5 +125,44 @@ public class MainController {
             row = 0;
          return new Move(col, row);
     }
+   
+   private void setMacroBoardBorders(String[][] matrix){
+       for (int i = 0; i < 3; i++) {
+           for (int j = 0; j < 3; j++) {
+               Node node = null;
+               node = getNodeByRowColumnIndex(i, j);
+               StackPane pane = (StackPane) node;
+               if("-1".equals(matrix[i][j]))
+                pane.setStyle("-fx-border-color: red;");
+               else
+                pane.setStyle("-fx-border-color: white;");
+           }
+       }
+   }
+   public Node getNodeByRowColumnIndex (final int row, final int column) {
+    Node result = null;
+    ObservableList<Node> childrens = macroBoard.getChildren();
+
+    for (Node node : childrens) {
+        int c;
+        int r;
+        Integer int1 = GridPane.getColumnIndex(node);
+        Integer int2 = GridPane.getRowIndex(node);
+        if(int1!=null)
+            c = int1.intValue();
+        else
+            c = 0;
+        if(int2!=null)
+            r = int2.intValue();
+        else
+            r = 0;
+        if(r == row && c == column) {
+            result = node;
+            break;
+        }
+    }
+
+    return result;
+}
 }
 

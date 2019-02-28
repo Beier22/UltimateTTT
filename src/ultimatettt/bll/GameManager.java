@@ -5,7 +5,10 @@
  */
 package ultimatettt.bll;
 
+import java.util.List;
 import ultimatettt.bll.IBot;
+import static ultimatettt.bll.IField.AVAILABLE_FIELD;
+import static ultimatettt.bll.IField.UNAVAILABLE_FIELD;
 import ultimatettt.bll.IMove;
 
 /**
@@ -77,10 +80,9 @@ public class GameManager {
     {
         //Verify the new move
         if(!verifyMoveLegality(move)) 
-        { 
+        {
             return false; 
         }
-        
         //Update the currentState
         updateBoard(move);
         updateMacroboard(move);
@@ -124,23 +126,58 @@ public class GameManager {
     {
         //Test if the move is legal   
         //NOTE: should also check whether the move is placed on an occupied spot.
-        System.out.println("Checking move validity against macroboard available field");
-        System.out.println("Not currently checking move validity actual board");
-        if(currentState.getField().getAvailableMoves().contains(move))   
+        if(checkIfButtonIsInTheList(move)){
             return currentState.getField().isInActiveMicroboard(move.getX(), move.getY());
-        else 
+        }
+        else{
             return false;
+        }
     }
     
     private void updateBoard(IMove move)
     {
-       //TODO: Update the board to the new state 
-        throw new UnsupportedOperationException("Not supported yet."); 
+       String [][] board = currentState.getField().getBoard();
+       if(currentPlayer==1)
+       board[move.getY()][move.getX()] = "x";
+       else{
+       board[move.getY()][move.getX()] = "o";}
+       currentState.getField().setBoard(board);
     }
     
     private void updateMacroboard(IMove move)
     {
-       //TODO: Update the macroboard to the new state 
-       throw new UnsupportedOperationException("Not supported yet."); 
+        int y = move.getY()%3;
+        int x = move.getX()%3;
+        System.out.println("Macroboard");
+        System.out.println(x);
+        System.out.println(y);
+        if(!currentState.getField().isMicroboardFull(x, y)){
+            currentState.getField().setActiveMacroBoard(x, y);
+        }
+        else{
+        currentState.getField().setEveryOtherMacroBoard(x, y);
+        }
+    }
+    
+    private String[][] getMacroBoard(){
+        return currentState.getField().getMacroboard();
+    }
+    public IGameState getGameState(){
+        return currentState;
+    }
+    
+    private Boolean checkIfButtonIsInTheList(IMove move){
+        List<IMove> list = currentState.getField().getAvailableMoves();
+        System.out.println("Move X and Y");
+        System.out.println(move.getX());
+        System.out.println(move.getY());
+        for (IMove iMove : list) {
+            if(iMove.getX()==move.getX()&&iMove.getY()==move.getY()){
+                System.out.println("List X "+iMove.getX()+" List Y "+iMove.getY());
+                return true;
+            }
+        }
+        System.out.println("False");
+        return false;
     }
 }

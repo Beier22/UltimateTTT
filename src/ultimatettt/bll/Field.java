@@ -15,18 +15,18 @@ import java.util.List;
 public class Field implements IField{
     String[][] board;
     String[][] macroBoard;
-
+    
     @Override
     public void clearBoard() {
-       for (String[] strings : board) {
-            for (String string : strings) {
-                string = EMPTY_FIELD;
+       for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                board[i][j] = ".";
             }
             
         }
-       for (String[] strings : macroBoard) {
-            for (String string : strings) {
-                string = AVAILABLE_FIELD;
+       for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                macroBoard[i][j] = "-1";
             }
             
         }
@@ -37,7 +37,7 @@ public class Field implements IField{
         List<IMove> movesList = new ArrayList<>();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                if(board[i][j] == AVAILABLE_FIELD){
+                if(".".equals(board[i][j])){
                     movesList.add(new Move(i, j));
                 }
             }
@@ -56,7 +56,7 @@ public class Field implements IField{
     public boolean isEmpty() {
         for (String[] strings : board) {
             for (String string : strings) {
-                if(string!=EMPTY_FIELD)
+                if(!string.equals("."))
                     return false;
             }
             
@@ -68,7 +68,7 @@ public class Field implements IField{
     public boolean isFull() {
         for (String[] strings : board) {
             for (String string : strings) {
-                if(string==EMPTY_FIELD)
+                if(string.equals("."))
                     return false;
             } 
         }
@@ -77,10 +77,7 @@ public class Field implements IField{
 
     @Override
     public Boolean isInActiveMicroboard(int x, int y) {
-        if(macroBoard[y/3][x/3] == AVAILABLE_FIELD)
-            return true;
-        else
-            return false;
+        return macroBoard[y/3][x/3].equals("-1");
     }
 
     @Override
@@ -100,8 +97,40 @@ public class Field implements IField{
     }
 
     @Override
-    public void setMacroboard(String[][] macroboard) {
+    public void setMacroboard(String[][] macroBoard) {
         this.macroBoard = macroBoard;
     }
-    
+    @Override
+    public Boolean isMicroboardFull(int x, int y){
+        for(int i = y*3; i <= (y*3)+2; i++){
+            for(int j = x*3; i <= (x*3)+2; i++){
+                if(board[i][j].equals("."))
+                    return false;
+            }
+        }
+        return true;
+    }
+    @Override
+    public void setActiveMacroBoard(int x, int y){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if("-1".equals(macroBoard[i][j]))
+                macroBoard[i][j]="0";
+            }
+        }
+        macroBoard[y][x] = "-1";
+    }
+    @Override
+    public void setEveryOtherMacroBoard(int x, int y){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(!isMicroboardFull(j, i))
+                    macroBoard[i][j] = "-1";
+                else
+                    macroBoard[i][j] = "0";
+            }
+        }
+            macroBoard[y][x] = "0";
+            }
 }
+

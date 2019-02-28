@@ -11,14 +11,17 @@ package ultimatettt.bll;
  */
 public class GameState implements IGameState{
 
-    private IField field;
+    private final IField field;
     private int moveNumber;
     private int roundNumber;
     
     public GameState(){
+        String[][] board = new String[9][9];
+        String[][] macroBoard = new String[3][3];
         this.field = new Field();
-        field.setBoard(new String[9][9]);
-        field.setMacroboard(new String[3][3]);
+        field.setBoard(board);
+        field.setMacroboard(macroBoard);
+        field.clearBoard();
     }
     
     @Override
