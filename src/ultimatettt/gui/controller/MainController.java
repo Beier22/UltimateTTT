@@ -52,6 +52,8 @@ public class MainController {
         setDistinguisher(i);
         setLabel();
         createManager();
+        String[][] mB = manager.getGameState().getField().getMacroboard();
+        setMacroBoardBorders(mB);
     }
     public void setDistinguisher(int i){
         this.distinguisher=i;
@@ -91,6 +93,7 @@ public class MainController {
         Button btn = (Button) event.getSource();
         
         IMove move = createMove(btn);
+        
         if(manager.updateGame(move)){
             if(isX)
             {
@@ -126,14 +129,15 @@ public class MainController {
          return new Move(col, row);
     }
    
-   private void setMacroBoardBorders(String[][] matrix){
+   public void setMacroBoardBorders(String[][] matrix){
        for (int i = 0; i < 3; i++) {
            for (int j = 0; j < 3; j++) {
                Node node = null;
                node = getNodeByRowColumnIndex(i, j);
                StackPane pane = (StackPane) node;
-               if("-1".equals(matrix[i][j]))
-                pane.setStyle("-fx-border-color: red;");
+               
+               if(matrix[i][j].equals("-1")){
+                pane.setStyle("-fx-border-color: red;");}
                else
                 pane.setStyle("-fx-border-color: white;");
            }
@@ -149,11 +153,11 @@ public class MainController {
         Integer int1 = GridPane.getColumnIndex(node);
         Integer int2 = GridPane.getRowIndex(node);
         if(int1!=null)
-            c = int1.intValue();
+            c = int1;
         else
             c = 0;
         if(int2!=null)
-            r = int2.intValue();
+            r = int2;
         else
             r = 0;
         if(r == row && c == column) {

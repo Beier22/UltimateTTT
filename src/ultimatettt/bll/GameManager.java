@@ -27,6 +27,7 @@ public class GameManager {
     }
     
     private final IGameState currentState;
+    
     private int currentPlayer = 0; //player0 == 0 && player1 == 1
     private GameMode mode = GameMode.HumanVsHuman;
     private IBot bot = null;
@@ -148,11 +149,14 @@ public class GameManager {
     {
         int y = move.getY()%3;
         int x = move.getX()%3;
-        System.out.println("Macroboard");
-        System.out.println(x);
-        System.out.println(y);
+       // System.out.println("Macroboard");
+       // System.out.println(x);
+       // System.out.println(y);
         if(!currentState.getField().isMicroboardFull(x, y)){
             currentState.getField().setActiveMacroBoard(x, y);
+            System.out.println("Czy dany Microboard zajety?: "+currentState.getField().isMicroboardFull(x, y));
+            System.out.println("x "+x);
+            System.out.println("y "+y);
         }
         else{
         currentState.getField().setEveryOtherMacroBoard(x, y);
@@ -168,16 +172,16 @@ public class GameManager {
     
     private Boolean checkIfButtonIsInTheList(IMove move){
         List<IMove> list = currentState.getField().getAvailableMoves();
-        System.out.println("Move X and Y");
-        System.out.println(move.getX());
-        System.out.println(move.getY());
+     //   System.out.println("Move X and Y");
+     //   System.out.println(move.getX());
+     //   System.out.println(move.getY());
         for (IMove iMove : list) {
             if(iMove.getX()==move.getX()&&iMove.getY()==move.getY()){
-                System.out.println("List X "+iMove.getX()+" List Y "+iMove.getY());
+       //         System.out.println("List X "+iMove.getX()+" List Y "+iMove.getY());
                 return true;
             }
         }
-        System.out.println("False");
+    //    System.out.println("False");
         return false;
     }
 }

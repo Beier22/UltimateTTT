@@ -102,10 +102,15 @@ public class Field implements IField{
     }
     @Override
     public Boolean isMicroboardFull(int x, int y){
+       
         for(int i = y*3; i <= (y*3)+2; i++){
-            for(int j = x*3; i <= (x*3)+2; i++){
-                if(board[i][j].equals("."))
+            for(int j = x*3; j <= (x*3)+2; j++){
+                if(board[i][j].equals(".")){
+                    System.out.println("i "+ i);
+                    System.out.println("j "+j);
+                     System.out.println("board: "+board[i][j]);
                     return false;
+                }
             }
         }
         return true;

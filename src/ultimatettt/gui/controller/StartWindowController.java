@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ultimatettt.bll.GameManager;
 
 /**
  * FXML Controller class
@@ -26,7 +27,7 @@ public class StartWindowController implements Initializable {
 
     @FXML
     private JFXButton btnPVP;
-
+    GameManager manager;
     /**
      * Initializes the controller class.
      */
@@ -46,6 +47,7 @@ public class StartWindowController implements Initializable {
         controller.setGameUp(i);
         stage.setScene(new Scene(root));
         stage.show();
+        
     }
     
     @FXML
