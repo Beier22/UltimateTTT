@@ -16,39 +16,41 @@ import ultimatettt.bll.IMove;
  * @author mads_
  */
 public class GameManager {
-    
+
     /**
      * Three different game modes.
      */
-    public enum GameMode{
+    public enum GameMode {
         HumanVsHuman,
         HumanVsBot,
         BotVsBot
     }
-    
+
     private final IGameState currentState;
-    
+
     private int currentPlayer = 0; //player0 == 0 && player1 == 1
     private GameMode mode = GameMode.HumanVsHuman;
     private IBot bot = null;
     private IBot bot2 = null;
 
     /**
-     * Set's the currentState so the game can begin.
-     * Game expected to be played Human vs Human
-     * @param currentState Current game state, usually an empty board, 
-     * but could load a saved game.
+     * Set's the currentState so the game can begin. Game expected to be played
+     * Human vs Human
+     *
+     * @param currentState Current game state, usually an empty board, but could
+     * load a saved game.
      */
     public GameManager(IGameState currentState) {
         this.currentState = currentState;
         mode = GameMode.HumanVsHuman;
     }
-    
+
     /**
-     * Set's the currentState so the game can begin.
-     * Game expected to be played Human vs Bot
-     * @param currentState Current game state, usually an empty board, 
-     * but could load a saved game.
+     * Set's the currentState so the game can begin. Game expected to be played
+     * Human vs Bot
+     *
+     * @param currentState Current game state, usually an empty board, but could
+     * load a saved game.
      * @param bot The bot to play against in vsBot mode.
      */
     public GameManager(IGameState currentState, IBot bot) {
@@ -56,12 +58,13 @@ public class GameManager {
         mode = GameMode.HumanVsBot;
         this.bot = bot;
     }
-    
+
     /**
-     * Set's the currentState so the game can begin.
-     * Game expected to be played Bot vs Bot
-     * @param currentState Current game state, usually an empty board, 
-     * but could load a saved game.
+     * Set's the currentState so the game can begin. Game expected to be played
+     * Bot vs Bot
+     *
+     * @param currentState Current game state, usually an empty board, but could
+     * load a saved game.
      * @param bot The first bot to play.
      * @param bot2 The second bot to play.
      */
@@ -71,117 +74,117 @@ public class GameManager {
         this.bot = bot;
         this.bot2 = bot2;
     }
-    
+
     /**
      * User input driven Update
+     *
      * @param move The next user move
      * @return Returns true if the update was successful, false otherwise.
      */
-    public Boolean updateGame(IMove move)
-    {
+    public Boolean updateGame(IMove move) {
         //Verify the new move
-        if(!verifyMoveLegality(move)) 
-        {
-            return false; 
+
+        if (verifyMoveLegality(move)) {
+            // System.out.println("Odpala verify - GameManager");
+            updateBoard(move);
+            updateMacroboard(move);
+            currentPlayer = (currentPlayer + 1) % 2;
+            return true;
         }
         //Update the currentState
-        updateBoard(move);
-        updateMacroboard(move);
-        
+
         //Update currentPlayer
-        currentPlayer = (currentPlayer + 1) % 2;
-        
-        return true;
+        return false;
     }
-    
+
     /**
      * Non-User driven input, e.g. an update for playing a bot move.
+     *
      * @return Returns true if the update was successful, false otherwise.
      */
-    public Boolean updateGame()
-    {
+    public Boolean updateGame() {
         //Check game mode is set to one of the bot modes.
-        assert(mode != GameMode.HumanVsHuman);
-        
+        assert (mode != GameMode.HumanVsHuman);
+
         //Check if player is bot, if so, get bot input and update the state based on that.
-        if(mode == GameMode.HumanVsBot && currentPlayer == 1)
-        {
+        if (mode == GameMode.HumanVsBot && currentPlayer == 1) {
             //Check bot is not equal to null, and throw an exception if it is.
-            assert(bot != null);
-            
+            assert (bot != null);
+
             IMove botMove = bot.doMove(currentState);
-            
+
             //Be aware that your bots might perform illegal moves.
             return updateGame(botMove);
         }
-        
+
         //Check bot is not equal to null, and throw an exception if it is.
-        assert(bot != null);
-        assert(bot2 != null);
-        
+        assert (bot != null);
+        assert (bot2 != null);
+
         //TODO: Implement a bot vs bot Update.
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    private Boolean verifyMoveLegality(IMove move)
-    {
+
+    private Boolean verifyMoveLegality(IMove move) {
+        //  System.out.println("Odpala verify - GameManager");
         //Test if the move is legal   
         //NOTE: should also check whether the move is placed on an occupied spot.
-        if(checkIfButtonIsInTheList(move)){
+        if (checkIfButtonIsInTheList(move)) {
+            //  System.out.println("Odpala checkIFbutton?");
             return currentState.getField().isInActiveMicroboard(move.getX(), move.getY());
-        }
-        else{
+        } else {
             return false;
         }
     }
-    
-    private void updateBoard(IMove move)
-    {
-       String [][] board = currentState.getField().getBoard();
-       if(currentPlayer==1)
-       board[move.getY()][move.getX()] = "x";
-       else{
-       board[move.getY()][move.getX()] = "o";}
-       currentState.getField().setBoard(board);
+
+    private void updateBoard(IMove move) {
+        String[][] board = currentState.getField().getBoard();
+        if (currentPlayer == 1) {
+            board[move.getY()][move.getX()] = "x";
+        } else {
+            board[move.getY()][move.getX()] = "o";
+        }
+        currentState.getField().setBoard(board);
+
     }
-    
-    private void updateMacroboard(IMove move)
-    {
-        int y = move.getY()%3;
-        int x = move.getX()%3;
-       // System.out.println("Macroboard");
-       // System.out.println(x);
-       // System.out.println(y);
-        if(!currentState.getField().isMicroboardFull(x, y)){
+
+    private void updateMacroboard(IMove move) {
+        int y = move.getY() % 3;
+        int x = move.getX() % 3;
+        // System.out.println("Macroboard");
+        // System.out.println(x);
+        // System.out.println(y);
+        if (!currentState.getField().isMicroboardFull(x, y)) {
             currentState.getField().setActiveMacroBoard(x, y);
-            System.out.println("Czy dany Microboard zajety?: "+currentState.getField().isMicroboardFull(x, y));
-            System.out.println("x "+x);
-            System.out.println("y "+y);
-        }
-        else{
-        currentState.getField().setEveryOtherMacroBoard(x, y);
+        } else {
+            currentState.getField().setEveryOtherMacroBoard(x, y);
         }
     }
-    
-    private String[][] getMacroBoard(){
+
+    private String[][] getMacroBoard() {
         return currentState.getField().getMacroboard();
     }
-    public IGameState getGameState(){
+
+    public IGameState getGameState() {
         return currentState;
     }
-    
-    private Boolean checkIfButtonIsInTheList(IMove move){
+
+    private Boolean checkIfButtonIsInTheList(IMove move) {
+        //    System.out.println("Odpala check ifbutton on the list?");
         List<IMove> list = currentState.getField().getAvailableMoves();
-     //   System.out.println("Move X and Y");
-     //   System.out.println(move.getX());
-     //   System.out.println(move.getY());
         for (IMove iMove : list) {
-            if(iMove.getX()==move.getX()&&iMove.getY()==move.getY()){
-       //         System.out.println("List X "+iMove.getX()+" List Y "+iMove.getY());
+            System.out.println(" ");
+            System.out.println("move X " + move.getX());
+            System.out.println("move Y " + move.getY());
+            System.out.println("iMove X " + iMove.getX());
+            System.out.println("iMove Y " + iMove.getY());
+            System.out.println(" ");
+            if (iMove.getX() == move.getY() && iMove.getY() == move.getX()) {
+
                 return true;
             }
         }
-    //    System.out.println("False");
+        //    System.out.println("False");
         return false;
     }
 }

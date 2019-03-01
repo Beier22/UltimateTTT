@@ -93,8 +93,10 @@ public class MainController {
         Button btn = (Button) event.getSource();
         
         IMove move = createMove(btn);
-        
+
+
         if(manager.updateGame(move)){
+            
             if(isX)
             {
                 btn.getStyleClass().add("xbtn");

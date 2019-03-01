@@ -77,6 +77,7 @@ public class Field implements IField{
 
     @Override
     public Boolean isInActiveMicroboard(int x, int y) {
+        System.out.println("macro value: "+macroBoard[y%3][x%3]);
         return macroBoard[y/3][x/3].equals("-1");
     }
 
@@ -106,9 +107,6 @@ public class Field implements IField{
         for(int i = y*3; i <= (y*3)+2; i++){
             for(int j = x*3; j <= (x*3)+2; j++){
                 if(board[i][j].equals(".")){
-                    System.out.println("i "+ i);
-                    System.out.println("j "+j);
-                     System.out.println("board: "+board[i][j]);
                     return false;
                 }
             }
