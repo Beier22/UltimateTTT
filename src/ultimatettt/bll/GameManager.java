@@ -179,7 +179,7 @@ public class GameManager {
             System.out.println("iMove X " + iMove.getX());
             System.out.println("iMove Y " + iMove.getY());
             System.out.println(" ");
-            if (iMove.getX() == move.getY() && iMove.getY() == move.getX()) {
+            if (iMove.getX() == move.getX() && iMove.getY() == move.getY()) {
 
                 return true;
             }

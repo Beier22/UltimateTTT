@@ -38,7 +38,7 @@ public class Field implements IField{
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(".".equals(board[i][j])){
-                    movesList.add(new Move(i, j));
+                    movesList.add(new Move(j, i));
                 }
             }
         }
