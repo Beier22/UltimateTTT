@@ -32,6 +32,7 @@ public class GameManager {
     private GameMode mode = GameMode.HumanVsHuman;
     private IBot bot = null;
     private IBot bot2 = null;
+    private IField ifield = null;
 
     /**
      * Set's the currentState so the game can begin. Game expected to be played
@@ -88,6 +89,7 @@ public class GameManager {
             // System.out.println("Odpala verify - GameManager");
             updateBoard(move);
             updateMacroboard(move);
+            System.out.println(currentState.getField().isMicroboardWon(move.getX(), move.getY()));
             currentPlayer = (currentPlayer + 1) % 2;
             return true;
         }
@@ -139,6 +141,7 @@ public class GameManager {
 
     private void updateBoard(IMove move) {
         String[][] board = currentState.getField().getBoard();
+        
         if (currentPlayer == 1) {
             board[move.getY()][move.getX()] = "x";
         } else {
@@ -173,12 +176,6 @@ public class GameManager {
         //    System.out.println("Odpala check ifbutton on the list?");
         List<IMove> list = currentState.getField().getAvailableMoves();
         for (IMove iMove : list) {
-            System.out.println(" ");
-            System.out.println("move X " + move.getX());
-            System.out.println("move Y " + move.getY());
-            System.out.println("iMove X " + iMove.getX());
-            System.out.println("iMove Y " + iMove.getY());
-            System.out.println(" ");
             if (iMove.getX() == move.getX() && iMove.getY() == move.getY()) {
 
                 return true;

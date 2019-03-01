@@ -136,12 +136,12 @@ public class MainController {
            for (int j = 0; j < 3; j++) {
                Node node = null;
                node = getNodeByRowColumnIndex(i, j);
-               StackPane pane = (StackPane) node;
+               //StackPane pane = (StackPane) node;
                
                if(matrix[i][j].equals("-1")){
-                pane.setStyle("-fx-border-color: red;");}
+                node.setStyle("-fx-border-color: red;");}
                else
-                pane.setStyle("-fx-border-color: white;");
+                node.setStyle("-fx-border-color: white;");
            }
        }
    }
