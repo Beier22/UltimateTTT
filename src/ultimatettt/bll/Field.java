@@ -116,9 +116,18 @@ public class Field implements IField {
         return true;
     }
 
+   
     @Override
-    public Boolean isMicroboardWon(int x, int y) {
-        return true;
+    public String checkWinner(int x, int y) {
+        int row = y*3;
+        int column = x*3;
+        
+        if(checkRowsColumnsCross("x",row,column))
+            return "x";
+        else
+        if(checkRowsColumnsCross("o",row,column))
+            return "o";
+        return "0";
     }
 
     @Override
@@ -146,4 +155,30 @@ public class Field implements IField {
         }
         macroBoard[y][x] = "0";
     }
-}
+
+    public Boolean checkRowsColumnsCross(String str, int row, int column)
+    {
+        for(int i = 0; i < 3; i++){
+            if(board[row+i][column]==str&&board[row+i][column+1]==str&&board[row+i][column+2]==str){
+                return true;
+            }}
+            
+        for(int j = 0; j < 3; j++){
+            if(board[row][column+j]==str&&board[row+1][column+j]==str&&board[row+2][column+j]==str){
+                return true;
+            }}
+        
+            if(board[row][column]==str&&board[row+1][column+1]==str&&board[row+2][column+2]==str){
+                return true;
+            }
+            
+            if(board[row][column]==str&&board[row+1][column+1]==str&&board[row+2][column+2]==str){
+                return true;
+            }
+            return false;
+        }
+        
+            
+    }        
+
+    

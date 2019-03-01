@@ -35,7 +35,7 @@ import ultimatettt.bll.Move;
 
 public class MainController {
     int distinguisher = 0;
-    boolean isX = true;
+    boolean isX = false;
     private Label label;
     private final IGameState gameState;
     GameManager manager;

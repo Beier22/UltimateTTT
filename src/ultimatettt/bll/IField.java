@@ -76,7 +76,13 @@ public interface IField {
      */
     void setMacroboard(String[][] macroboard);
     Boolean isMicroboardFull(int x, int y);
-    Boolean isMicroboardWon(int x, int y);
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    String checkWinner(int x, int y);
     void setEveryOtherMacroBoard(int x, int y);
     public void setActiveMacroBoard(int x, int y);
 }

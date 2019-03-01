@@ -89,7 +89,7 @@ public class GameManager {
             // System.out.println("Odpala verify - GameManager");
             updateBoard(move);
             updateMacroboard(move);
-            System.out.println(currentState.getField().isMicroboardWon(move.getX(), move.getY()));
+            System.out.println(currentState.getField().checkWinner(move.getX()/3, move.getY()/3));
             currentPlayer = (currentPlayer + 1) % 2;
             return true;
         }
