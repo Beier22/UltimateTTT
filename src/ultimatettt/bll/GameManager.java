@@ -88,8 +88,7 @@ public class GameManager {
         if (verifyMoveLegality(move)) {
             updateBoard(move);
             updateMacroboard(move);
-             
-             
+
             currentPlayer = (currentPlayer + 1) % 2;
             return true;
         }
@@ -140,7 +139,7 @@ public class GameManager {
 
     private void updateBoard(IMove move) {
         String[][] board = currentState.getField().getBoard();
-        
+
         if (currentPlayer == 1) {
             board[move.getY()][move.getX()] = "x";
         } else {
@@ -153,9 +152,9 @@ public class GameManager {
     private void updateMacroboard(IMove move) {
         int y = move.getY() % 3;
         int x = move.getX() % 3;
-        if (!currentState.getField().isMicroboardFull(x, y) && currentState.getField().checkWinner(x, y)=="0") {
+        if (!currentState.getField().isMicroboardFull(x, y) && currentState.getField().checkWinner(x, y) == "0") {
             currentState.getField().setActiveMacroBoard(x, y);
-        } else { 
+        } else {
             currentState.getField().setEveryOtherMacroBoard(x, y);
         }
     }
@@ -178,14 +177,13 @@ public class GameManager {
         }
         return false;
     }
-    
-    
-    public String checkWiner(IMove move){
-    if(currentState.getField().checkWinner(move.getX()/3, move.getY()/3)!="0")
-        return currentState.getField().checkWinner(move.getX()/3, move.getY()/3);
-    else return "0";
+
+    public String checkWiner(IMove move) {
+        if (currentState.getField().checkWinner(move.getX() / 3, move.getY() / 3) != "0") {
+            return currentState.getField().checkWinner(move.getX() / 3, move.getY() / 3);
+        } else {
+            return "0";
+        }
     }
-    
-    
-    
+
 }

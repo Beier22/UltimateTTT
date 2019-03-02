@@ -10,7 +10,8 @@ and open the template in the editor.
 @import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
 #bigGrid Line{
-    -fx-stroke: #50ff00;
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
 }
 
 #AnchorPane{
@@ -31,9 +32,13 @@ and open the template in the editor.
 }
 
 .xbtn{
-    -fx-background-color: red;
+    
+    -fx-text-fill: #00ffff;
+    -fx-background-color: black;
 }
 
 .ybtn{
-    -fx-background-color: blue;
+    
+    -fx-text-fill: #50ff00;
+    -fx-background-color: black;
 }

@@ -133,7 +133,7 @@ public class Field implements IField {
     public void setActiveMacroBoard(int x, int y) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if ("-1".equals(macroBoard[i][j])) {
+                if ("-1".equals(macroBoard[i][j]) && macroBoard[i][j]!="WINo" && macroBoard[i][j]!="WINx") {
                     macroBoard[i][j] = "0";
                 }
                 
@@ -147,16 +147,21 @@ public class Field implements IField {
     public void setEveryOtherMacroBoard(int x, int y) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!isMicroboardFull(j, i) && checkWinner(i, j)=="0" && macroBoard[i][j]!="WIN") {
+                if (!isMicroboardFull(j, i) && checkWinner(i, j)=="0") {
                     macroBoard[i][j] = "-1";
                 } else {
-                    if(macroBoard[i][j]!="WINo" && macroBoard[i][j]!="WINx")
-                    macroBoard[i][j] = "0";
+                    if(!macroBoard[i][j].equals("WINo") && macroBoard[i][j]!="WINx"){
+                        System.out.println("macroBoard= "+macroBoard[i][j]);
+                    macroBoard[i][j] = "0";                    
+                    System.out.println("TUTAJ 1 "+"i= "+i+" j= "+j);
+                    }
                 }
             }
         }
-        if(macroBoard[y][x]!="WINo" && macroBoard[y][x]!="WINx")
+        if(macroBoard[y][x]!="WINo" && macroBoard[y][x]!="WINx" && checkWinner(x, y)=="0"){
         macroBoard[y][x] = "0";
+        
+        }
     }
 
 

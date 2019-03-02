@@ -87,19 +87,19 @@ public class MainController {
         Button btn = (Button) event.getSource();
 
         IMove move = createMove(btn);
-        
+
         if (manager.updateGame(move)) {
             manager.checkWiner(move);
             if (isX) {
                 btn.getStyleClass().add("xbtn");
                 btn.setText("X");
                 isX = false;
-              
+
             } else {
                 btn.getStyleClass().add("ybtn");
                 btn.setText("O");
                 isX = true;
-               
+
             }
 
         };
@@ -133,23 +133,42 @@ public class MainController {
             for (int j = 0; j < 3; j++) {
                 Node node = null;
                 node = getNodeByRowColumnIndex(i, j);
-                if (matrix[i][j].equals("-1")) {
-                    node.setStyle("-fx-border-color: green;");
-                } else if(matrix[i][j].equals("0")) {
-                    node.setStyle("-fx-border-color: white;");
-                }
-                else if(matrix[i][j].equals("WINo")) { // ITS ONLY TO TEST IF WORKS
-                    node.setStyle("-fx-border-color: blue; -fx-border-width: 4;");
-                    
-                }
-                else if(matrix[i][j].equals("WINx")) { // ITS ONLY TO TEST IF WORKS
-                    node.setStyle("-fx-border-color: red; -fx-border-width: 4;");
-                    
-                }
+                System.out.println("matrix "+x+" "+matrix[i][j]);
                 x++;
+                if (matrix[i][j].equals("-1")) {
+                    if (isX) {
+                        node.setStyle("-fx-background-color: #00ffff;"); // "blue"
+                    } else {
+                        node.setStyle("-fx-background-color: #50ff00;"); // green
+                    }
+                } else if (matrix[i][j].equals("0")) {
+                    node.setStyle("-fx-background-color: #303030;");
+                } else if (matrix[i][j].equals("WINo")) { 
+                    node.setStyle("-fx-background-color: #303030;");
+                    /*
+                    Button test = new Button();
+                    test.setText("o");
+                    test.setVisible(true);
+                    test.setStyle("-fx-pref-height: 167; -fx-pref-width: 167; -fx-font-size: 40; -fx-text-fill: red;");
+                    macroBoard.add(test, i, j);
+                    */
+                } else if (matrix[i][j].equals("WINx")) { 
+                    node.setStyle("-fx-background-color: #303030;");
+                    /*
+                    macroBoard.getChildren().remove(node);
+                    Button test = new Button();
+                    test.setText("o");
+                    test.setVisible(true);
+                    test.setStyle("-fx-pref-height: 167; -fx-pref-width: 167; -fx-font-size: 40; -fx-text-fill: red;");
+                    macroBoard.add(test, i, j);
+                     */
+                     
+                }
+               
             }
-            
+                
         }
+        System.out.println("---------------------");
     }
 
     public Node getNodeByRowColumnIndex(final int row, final int column) {
