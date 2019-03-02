@@ -30,10 +30,8 @@ import ultimatettt.bll.Move;
  *
  * @author mads_
  */
-
-
-
 public class MainController {
+
     int distinguisher = 0;
     boolean isX = false;
     private Label label;
@@ -43,132 +41,142 @@ public class MainController {
     private Label mainLabel;
     @FXML
     private GridPane macroBoard;
-    
-    public MainController(){
+
+    public MainController() {
         this.gameState = new GameState();
     }
-    
-    public void setGameUp(int i){
+
+    public void setGameUp(int i) {
         setDistinguisher(i);
         setLabel();
         createManager();
         String[][] mB = manager.getGameState().getField().getMacroboard();
         setMacroBoardBorders(mB);
     }
-    public void setDistinguisher(int i){
-        this.distinguisher=i;
+
+    public void setDistinguisher(int i) {
+        this.distinguisher = i;
     }
-    
-    private void setLabel(){
-        if(distinguisher==1){
-                mainLabel.setText("Human vs Human");
-            }
-            else if(distinguisher==2){
-                mainLabel.setText("Human vs Bot");
-            }
-            else{
-                mainLabel.setText("Human vs Bot");
-            }
+
+    private void setLabel() {
+        if (distinguisher == 1) {
+            mainLabel.setText("Human vs Human");
+        } else if (distinguisher == 2) {
+            mainLabel.setText("Human vs Bot");
+        } else {
+            mainLabel.setText("Human vs Bot");
         }
-    private void createManager(){
-        
-        if(distinguisher==1){
+    }
+
+    private void createManager() {
+
+        if (distinguisher == 1) {
             manager = new GameManager(gameState);
-        }
-        else if(distinguisher==2){
+        } else if (distinguisher == 2) {
             IBot bot1 = new Bot();
             manager = new GameManager(gameState, bot1);
-        }
-        else{
+        } else {
             IBot bot1 = new Bot();
             IBot bot2 = new Bot();
             manager = new GameManager(gameState, bot1, bot2);
         }
-   }
+    }
 
-    
-    
     @FXML
     private void handleBtnAction(ActionEvent event) {
         Button btn = (Button) event.getSource();
-        
+
         IMove move = createMove(btn);
-
-
-        if(manager.updateGame(move)){
-            
-            if(isX)
-            {
+        
+        if (manager.updateGame(move)) {
+            manager.checkWiner(move);
+            if (isX) {
                 btn.getStyleClass().add("xbtn");
                 btn.setText("X");
                 isX = false;
+              
             } else {
                 btn.getStyleClass().add("ybtn");
                 btn.setText("O");
                 isX = true;
+               
             }
+
         };
-        
+
         String[][] mB = manager.getGameState().getField().getMacroboard();
         setMacroBoardBorders(mB);
- 
-        
+
     }
-    
-   private IMove createMove(Button btn){
+
+    private IMove createMove(Button btn) {
         int col;
         int row;
         Integer int1 = GridPane.getColumnIndex(btn);
         Integer int2 = GridPane.getRowIndex(btn);
-        if(int1!=null)
+        if (int1 != null) {
             col = int1.intValue();
-        else
+        } else {
             col = 0;
-        if(int2!=null)
+        }
+        if (int2 != null) {
             row = int2.intValue();
-        else
+        } else {
             row = 0;
-         return new Move(col, row);
+        }
+        return new Move(col, row);
     }
-   
-   public void setMacroBoardBorders(String[][] matrix){
-       for (int i = 0; i < 3; i++) {
-           for (int j = 0; j < 3; j++) {
-               Node node = null;
-               node = getNodeByRowColumnIndex(i, j);
-               //StackPane pane = (StackPane) node;
-               
-               if(matrix[i][j].equals("-1")){
-                node.setStyle("-fx-border-color: red;");}
-               else
-                node.setStyle("-fx-border-color: white;");
-           }
-       }
-   }
-   public Node getNodeByRowColumnIndex (final int row, final int column) {
-    Node result = null;
-    ObservableList<Node> childrens = macroBoard.getChildren();
 
-    for (Node node : childrens) {
-        int c;
-        int r;
-        Integer int1 = GridPane.getColumnIndex(node);
-        Integer int2 = GridPane.getRowIndex(node);
-        if(int1!=null)
-            c = int1;
-        else
-            c = 0;
-        if(int2!=null)
-            r = int2;
-        else
-            r = 0;
-        if(r == row && c == column) {
-            result = node;
-            break;
+    public void setMacroBoardBorders(String[][] matrix) {
+        int x=1;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Node node = null;
+                node = getNodeByRowColumnIndex(i, j);
+                if (matrix[i][j].equals("-1")) {
+                    node.setStyle("-fx-border-color: green;");
+                } else if(matrix[i][j].equals("0")) {
+                    node.setStyle("-fx-border-color: white;");
+                }
+                else if(matrix[i][j].equals("WINo")) { // ITS ONLY TO TEST IF WORKS
+                    node.setStyle("-fx-border-color: blue; -fx-border-width: 4;");
+                    
+                }
+                else if(matrix[i][j].equals("WINx")) { // ITS ONLY TO TEST IF WORKS
+                    node.setStyle("-fx-border-color: red; -fx-border-width: 4;");
+                    
+                }
+                x++;
+            }
+            
         }
     }
 
-    return result;
-}
-}
+    public Node getNodeByRowColumnIndex(final int row, final int column) {
+        Node result = null;
+        ObservableList<Node> childrens = macroBoard.getChildren();
 
+        for (Node node : childrens) {
+            int c;
+            int r;
+            Integer int1 = GridPane.getColumnIndex(node);
+            Integer int2 = GridPane.getRowIndex(node);
+            if (int1 != null) {
+                c = int1;
+            } else {
+                c = 0;
+            }
+            if (int2 != null) {
+                r = int2;
+            } else {
+                r = 0;
+            }
+            if (r == row && c == column) {
+                result = node;
+                break;
+            }
+        }
+
+        return result;
+    }
+}

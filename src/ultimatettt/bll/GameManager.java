@@ -86,10 +86,10 @@ public class GameManager {
         //Verify the new move
 
         if (verifyMoveLegality(move)) {
-            // System.out.println("Odpala verify - GameManager");
             updateBoard(move);
             updateMacroboard(move);
-            System.out.println(currentState.getField().checkWinner(move.getX()/3, move.getY()/3));
+             
+             
             currentPlayer = (currentPlayer + 1) % 2;
             return true;
         }
@@ -132,7 +132,6 @@ public class GameManager {
         //Test if the move is legal   
         //NOTE: should also check whether the move is placed on an occupied spot.
         if (checkIfButtonIsInTheList(move)) {
-            //  System.out.println("Odpala checkIFbutton?");
             return currentState.getField().isInActiveMicroboard(move.getX(), move.getY());
         } else {
             return false;
@@ -154,12 +153,9 @@ public class GameManager {
     private void updateMacroboard(IMove move) {
         int y = move.getY() % 3;
         int x = move.getX() % 3;
-        // System.out.println("Macroboard");
-        // System.out.println(x);
-        // System.out.println(y);
-        if (!currentState.getField().isMicroboardFull(x, y)) {
+        if (!currentState.getField().isMicroboardFull(x, y) && currentState.getField().checkWinner(x, y)=="0") {
             currentState.getField().setActiveMacroBoard(x, y);
-        } else {
+        } else { 
             currentState.getField().setEveryOtherMacroBoard(x, y);
         }
     }
@@ -173,7 +169,6 @@ public class GameManager {
     }
 
     private Boolean checkIfButtonIsInTheList(IMove move) {
-        //    System.out.println("Odpala check ifbutton on the list?");
         List<IMove> list = currentState.getField().getAvailableMoves();
         for (IMove iMove : list) {
             if (iMove.getX() == move.getX() && iMove.getY() == move.getY()) {
@@ -181,7 +176,16 @@ public class GameManager {
                 return true;
             }
         }
-        //    System.out.println("False");
         return false;
     }
+    
+    
+    public String checkWiner(IMove move){
+    if(currentState.getField().checkWinner(move.getX()/3, move.getY()/3)!="0")
+        return currentState.getField().checkWinner(move.getX()/3, move.getY()/3);
+    else return "0";
+    }
+    
+    
+    
 }
