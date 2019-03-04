@@ -6,6 +6,8 @@
 package ultimatettt.gui.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,6 +43,12 @@ public class MainController {
     private Label mainLabel;
     @FXML
     private GridPane macroBoard;
+    @FXML
+    private Label xScore;
+    @FXML
+    private Label oScore;
+    @FXML
+    private GridPane microBoard;
 
     public MainController() {
         this.gameState = new GameState();
@@ -87,7 +95,6 @@ public class MainController {
         Button btn = (Button) event.getSource();
 
         IMove move = createMove(btn);
-
         if (manager.updateGame(move)) {
             manager.checkWiner(move);
             if (isX) {
@@ -133,7 +140,7 @@ public class MainController {
             for (int j = 0; j < 3; j++) {
                 Node node = null;
                 node = getNodeByRowColumnIndex(i, j);
-                System.out.println("matrix "+x+" "+matrix[i][j]);
+                System.out.println(x+" matrix"+"["+i+"]"+"["+j+"]"+" "+matrix[i][j]);
                 x++;
                 if (matrix[i][j].equals("-1")) {
                     if (isX) {
@@ -145,23 +152,12 @@ public class MainController {
                     node.setStyle("-fx-background-color: #303030;");
                 } else if (matrix[i][j].equals("WINo")) { 
                     node.setStyle("-fx-background-color: #303030;");
-                    /*
-                    Button test = new Button();
-                    test.setText("o");
-                    test.setVisible(true);
-                    test.setStyle("-fx-pref-height: 167; -fx-pref-width: 167; -fx-font-size: 40; -fx-text-fill: red;");
-                    macroBoard.add(test, i, j);
-                    */
+                    // TO DO WHEN o wins
+                    
                 } else if (matrix[i][j].equals("WINx")) { 
-                    node.setStyle("-fx-background-color: #303030;");
-                    /*
-                    macroBoard.getChildren().remove(node);
-                    Button test = new Button();
-                    test.setText("o");
-                    test.setVisible(true);
-                    test.setStyle("-fx-pref-height: 167; -fx-pref-width: 167; -fx-font-size: 40; -fx-text-fill: red;");
-                    macroBoard.add(test, i, j);
-                     */
+                  node.setStyle("-fx-background-color: #303030;");
+                    // TO DO WHEN x wins
+                     
                      
                 }
                

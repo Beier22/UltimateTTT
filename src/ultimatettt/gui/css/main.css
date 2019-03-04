@@ -20,7 +20,7 @@ and open the template in the editor.
 
 .label{
     -fx-font-family: 'Luckiest Guy', cursive;
-    -fx-text-fill: #50ff00;
+    -fx-text-fill: black;
 }
 
 .button{
