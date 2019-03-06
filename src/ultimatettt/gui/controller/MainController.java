@@ -24,6 +24,7 @@ import ultimatettt.bll.Bot;
 import ultimatettt.bll.GameManager;
 import ultimatettt.bll.GameState;
 import ultimatettt.bll.IBot;
+import ultimatettt.bll.IField;
 import ultimatettt.bll.IGameState;
 import ultimatettt.bll.IMove;
 import ultimatettt.bll.Move;
@@ -105,6 +106,7 @@ public class MainController {
             //manager.checkWiner(move);
             setMacroBoardBorders(mB);
             setBoard(manager.getGameState().getField().getBoard());
+            setMicroWin();
         }
     }
 
@@ -131,7 +133,7 @@ public class MainController {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Node node = null;
-                node = getNodeByRowColumnIndex(i, j);
+                node = getNodeByRowColumnIndex(i, j, macroBoard);
                 System.out.println(x+" matrix"+"["+i+"]"+"["+j+"]"+" "+matrix[i][j]);
                 x++;
                 if (matrix[i][j].equals("-1")) {
@@ -160,9 +162,9 @@ public class MainController {
         System.out.println("---------------------");
     }
 
-    public Node getNodeByRowColumnIndex(final int row, final int column) {
+    public Node getNodeByRowColumnIndex(final int row, final int column, GridPane board) {
         Node result = null;
-        ObservableList<Node> childrens = macroBoard.getChildren();
+        ObservableList<Node> childrens = board.getChildren();
 
         for (Node node : childrens) {
             int c;
@@ -216,5 +218,49 @@ public class MainController {
         }
     
     
+    }
+    
+    public void setMicroWin(){
+        String[][] matrix = manager.getGameState().getField().getMacroboard();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(matrix[i][j].equals("WINx")){
+                    String style = "-fx-background-color: black; -fx-text-fill: black;";
+                    setBoardStyle(i, j, style);
+                    int microRow00 = i * 3;
+                    int microCol00 = j * 3;
+                    for (int k = 0; k < 3; k++) {
+                        Node btn = getNodeByRowColumnIndex(microRow00 + k, microCol00 + k, microBoard);
+                        btn.setStyle("-fx-background-color: #00ffff; -fx-text-fill: #00ffff;");
+                        Node btn2 = getNodeByRowColumnIndex(microRow00 + 2 - k, microCol00 + k, microBoard);
+                        btn2.setStyle("-fx-background-color: #00ffff; -fx-text-fill: #00ffff;");
+                        Node pane = getNodeByRowColumnIndex(i, j, macroBoard);
+                        pane.setStyle("-fx-background-color: black;");
+                        
+                    }
+                    
+                } else if(matrix[i][j].equals("WINo")){
+                    String style = "-fx-background-color: #50ff00; -fx-text-fill: #50ff00;";
+                    setBoardStyle(i, j, style);
+                    Node btn = getNodeByRowColumnIndex(i*3+1, j*3+1, microBoard);
+                    btn.setStyle("-fx-background-color: black; -fx-text-fill: black;");
+                    Node pane = getNodeByRowColumnIndex(i, j, macroBoard);
+                    pane.setStyle("-fx-background-color: black;");
+                }
+                
+            }
+            
+        }
+    }
+    
+    public void setBoardStyle(int macroRow, int macroCol, String style){
+        int microRow00 = macroRow * 3;
+        int microCol00 = macroCol * 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Node node = getNodeByRowColumnIndex(microRow00+i, microCol00+j, microBoard);
+                node.setStyle(style);
+            }
+        }
     }
 }
