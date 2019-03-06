@@ -10,7 +10,7 @@ and open the template in the editor.
 @import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
 #bigGrid Line{
-    -fx-stroke: black;
+    -fx-stroke: #303030;
     -fx-stroke-width: 2;
 }
 
@@ -20,8 +20,13 @@ and open the template in the editor.
 
 .label{
     -fx-font-family: 'Luckiest Guy', cursive;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 27;
+}
+
+.label .text{
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
 }
 
 .button{
