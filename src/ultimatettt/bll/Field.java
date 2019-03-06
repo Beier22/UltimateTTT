@@ -53,22 +53,21 @@ public class Field implements IField {
 
     @Override
     public boolean isEmpty() {
-        for (String[] strings : board) {
-            for (String string : strings) {
-                if (!string.equals(".")) {
+       for(int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++) {
+                if (!".".equals(board[i][j])) {
                     return false;
                 }
             }
-
         }
         return true;
     }
 
     @Override
     public boolean isFull() {
-        for (String[] strings : board) {
-            for (String string : strings) {
-                if (string.equals(".")) {
+        for(int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++) {
+                if (".".equals(board[i][j])) {
                     return false;
                 }
             }

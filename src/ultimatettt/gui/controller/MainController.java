@@ -230,25 +230,27 @@ public class MainController {
         String[][] matrix = manager.getGameState().getField().getMacroboard();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if("WINx".equals(matrix[i][j])){
+                if("WINx".equals(matrix[i][j])||"WINo".equals(matrix[i][j])){
                    Node node = getNodeByRowColumnIndex(i, j, macroBoard);
                    StackPane pane = (StackPane) node;
-                   pane.getChildren().clear();
-                   Image image = new Image("/ultimatettt/gui/image/xIcon.png");
+                   Image image;
+                   if(matrix[i][j].equals("WINx"))
+                   image = new Image("/ultimatettt/gui/image/xIcon.png");
+                   else
+                   image = new Image("/ultimatettt/gui/image/oIcon.png");
                    ImageView iV = new ImageView(image);
-                   pane.getChildren().add(iV); 
-                }
-                else if ("WINo".equals(matrix[i][j])){
-                   Node node = getNodeByRowColumnIndex(i, j, macroBoard);
-                   StackPane pane = (StackPane) node;
-                   pane.getChildren().clear();
-                   Image image = new Image("/ultimatettt/gui/image/oIcon.png");
-                   ImageView iV = new ImageView(image);
-                   pane.getChildren().add(iV); 
-                }
-                }
+                   pane.getChildren().add(iV);
+                   
+                   for (int k = i*3; k < i*3+3; k++){
+                       for (int l = j*3; l < j*3+3; l++){
+                           Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
+                           microBoard.getChildren().remove(node2);
+                       } 
+                   }
                 }
             }
+        }
+    }
             
         
     
@@ -272,9 +274,12 @@ public class MainController {
             for(int j = 0; j < 3; j++){
                 if("WINx".equals(board[i][j])){
                     System.out.println(board[i][j]);
-                    x++;}
+                    setMacroWin();
+                    x++;
+                }
                 else if("WINo".equals(board[i][j])){
                     System.out.println(board[i][j]);
+                    setMacroWin();
                     o++;
                 }
             }
@@ -283,11 +288,12 @@ public class MainController {
         System.out.println("ScoreX: "+x);
         xScore.setText(""+x);
         oScore.setText(""+o);
+        System.out.println("Winner: "+manager.checkMacroWiner());
 
     }
     public void botVsBot(){
         while(true){
-            if(manager.checkMacroWiner() == "x" || manager.checkMacroWiner() == "o")
+            if(manager.checkMacroWiner() == "x" || manager.checkMacroWiner() == "o" || manager.getGameState().getField().isFull())
                 break;
             manager.updateGame();
             setBoard(manager.getGameState().getField().getBoard());
