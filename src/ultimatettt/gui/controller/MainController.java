@@ -144,10 +144,10 @@ public class MainController {
                 x++;
                 if (matrix[i][j].equals("-1")) {
                     if (manager.getCurrentPlayer()==1) {
-                        node.setStyle("-fx-background-color: #00ffff;"); // "blue"
+                        node.setStyle("-fx-background-color: #e25041; -fx-border-width: 2; -fx-border-color: #1abc9c;"); // "blue"
                     } 
                     else {
-                        node.setStyle("-fx-background-color: #50ff00;"); // green
+                        node.setStyle("-fx-background-color: #1abc9c; -fx-border-width: 2; -fx-border-color: #e25041;"); // green
                     }
                 } else if (matrix[i][j].equals("0")) {
                     node.setStyle("-fx-background-color: #303030;");
@@ -197,6 +197,8 @@ public class MainController {
     }
     public void setBoard(String[][] board){
         ObservableList<Node> buttonList = microBoard.getChildren();
+        Image imageX = new Image("/ultimatettt/gui/image/xIcon.png", 27, 27, true, true);
+        Image imageO = new Image("/ultimatettt/gui/image/oIcon.png", 27, 27, true, true);
         for (Node node : buttonList) {
             Button button = (Button) node;
             int c;
@@ -214,11 +216,11 @@ public class MainController {
                 r = 0;
             }
             if(board[r][c]=="x"){
-                button.setText("x");
+                button.setGraphic(new ImageView(imageX));
                 button.getStyleClass().add("xbtn");
             }
             else if(board[r][c]=="o"){
-                button.setText("o");
+                button.setGraphic(new ImageView(imageO));
                 button.getStyleClass().add("ybtn");
             }
         }
