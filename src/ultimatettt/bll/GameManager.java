@@ -104,7 +104,7 @@ public class GameManager {
      *
      * @return Returns true if the update was successful, false otherwise.
      */
-    public Boolean updateGame() {
+    public Boolean updateGame(){
         
 
         //Check if player is bot, if so, get bot input and update the state based on that.
@@ -125,11 +125,28 @@ public class GameManager {
         }
 
         else if(mode == GameMode.BotVsBot){
+            
+            while(true){
+            IMove botMove = bot.doMove(currentState);
+            if (updateGame(botMove)==false)
+                continue;
+            else
+                updateGame(botMove);
+                break;
+            }
+            
+            while(true){
+            IMove bot2Move = bot2.doMove(currentState);
+            if (updateGame(bot2Move)==false)
+                continue;
+            else
+                updateGame(bot2Move);
+                break;
+            }
         
         
-        
-        }
-        
+            return true;
+    }
             return false;
     }
 
@@ -153,13 +170,13 @@ public class GameManager {
             board[move.getY()][move.getX()] = "o";
         }
         currentState.getField().setBoard(board);
-        checkWiner(move);
+        checkMicroWiner(move);
     }
 
     private void updateMacroboard(IMove move) {
         int y = move.getY() % 3;
         int x = move.getX() % 3;
-        if (!currentState.getField().isMicroboardFull(x, y) && currentState.getField().checkWinner(x, y) == "0") {
+        if (!currentState.getField().isMicroboardFull(x, y) && currentState.getField().checkMicroWinner(x, y) == "0") {
             currentState.getField().setActiveMacroBoard(x, y);
         } else {
             currentState.getField().setEveryOtherMacroBoard(x, y);
@@ -185,8 +202,11 @@ public class GameManager {
         return false;
     }
 
-    public String checkWiner(IMove move) {
-       return currentState.getField().checkWinner(move.getX() / 3, move.getY() / 3);
+    public String checkMicroWiner(IMove move) {
+       return currentState.getField().checkMicroWinner(move.getX() / 3, move.getY() / 3);
+    }
+    public String checkMacroWiner() {
+       return currentState.getField().checkMacroWinner();
     }
     public int getCurrentPlayer(){
         return currentPlayer;

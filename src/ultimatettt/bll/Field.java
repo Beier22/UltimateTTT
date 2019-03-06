@@ -116,19 +116,6 @@ public class Field implements IField {
     }
 
     @Override
-    public String checkWinner(int x, int y) {
-        int row = y * 3;
-        int column = x * 3;
-
-        if (checkRowsColumnsCross("x", row, column)) {
-            return "x";
-        } else if (checkRowsColumnsCross("o", row, column)) {
-            return "o";
-        }
-        return "0";
-    }
-
-    @Override
     public void setActiveMacroBoard(int x, int y) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -138,11 +125,6 @@ public class Field implements IField {
 
             }
         }
-        /*
-        if (macroBoard[y][x] != "WINo" && macroBoard[y][x] != "WINx") {
-            macroBoard[y][x] = "-1";
-        }
-*/
         macroBoard[y][x] = "-1";
     }
 
@@ -150,43 +132,64 @@ public class Field implements IField {
     public void setEveryOtherMacroBoard(int x, int y) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!isMicroboardFull(j, i) && "0".equals(checkWinner(j, i))) {
+                if (!isMicroboardFull(j, i) && "0".equals(checkMicroWinner(j, i))) {
                     macroBoard[i][j] = "-1";
                 } else {
-                    if (!macroBoard[i][j].equals("WINo") && !"WINx".equals(macroBoard[i][j])) {
+                    if (!macroBoard[i][j].equals("WINo") && !macroBoard[i][j].equals("WINx")) {
                         macroBoard[i][j] = "0";
                     }
                 }
             }
         }
-        if (!"WINo".equals(macroBoard[y][x]) && !"WINx".equals(macroBoard[y][x]) && "0".equals(checkWinner(x, y))) {
+        if (!"WINo".equals(macroBoard[y][x]) && !"WINx".equals(macroBoard[y][x]) && "0".equals(checkMicroWinner(x, y))) {
             macroBoard[y][x] = "-1";
 
         }
     }
+    
+    @Override
+       public String checkMicroWinner(int x, int y) {
+           int row = y * 3;
+           int column = x * 3;
 
-    public Boolean checkRowsColumnsCross(String str, int row, int column) {
+           if (checkRowsColumnsCross("x", row, column, board)) {
+               macroBoard[row / 3][column / 3] = "WINx";
+               return "x";
+           } else if (checkRowsColumnsCross("o", row, column, board)) {
+               macroBoard[row / 3][column / 3] = "WINo";
+               return "o";
+           }
+           return "0";
+       }
+       
+       public String checkMacroWinner(){
+           if (checkRowsColumnsCross("WINx", 0, 0, macroBoard)) {
+               return "x";
+           } 
+           else if (checkRowsColumnsCross("WINo", 0, 0, macroBoard)) {
+               return "o";
+           }
+           return "0";
+       }
+       
+    public Boolean checkRowsColumnsCross(String str, int row, int column, String[][] matrix) {
         for (int i = 0; i < 3; i++) {
-            if (board[row + i][column] == str && board[row + i][column + 1] == str && board[row + i][column + 2] == str) {
-                macroBoard[row / 3][column / 3] = "WIN" + str;
+            if (matrix[row + i][column] == str && matrix[row + i][column + 1] == str && matrix[row + i][column + 2] == str) {
                 return true;
             }
         }
 
         for (int j = 0; j < 3; j++) {
-            if (board[row][column + j] == str && board[row + 1][column + j] == str && board[row + 2][column + j] == str) {
-                macroBoard[row / 3][column / 3] = "WIN" + str;
+            if (matrix[row][column + j] == str && matrix[row + 1][column + j] == str && matrix[row + 2][column + j] == str) {
                 return true;
             }
         }
 
-        if (board[row][column] == str && board[row + 1][column + 1] == str && board[row + 2][column + 2] == str) {
-            macroBoard[row / 3][column / 3] = "WIN" + str;
+        if (matrix[row][column] == str && matrix[row + 1][column + 1] == str && matrix[row + 2][column + 2] == str) {
             return true;
         }
 
-        if (board[row][column + 2] == str && board[row + 1][column + 1] == str && board[row + 2][column] == str) {
-            macroBoard[row / 3][column / 3] = "WIN" + str;
+        if (matrix[row][column + 2] == str && matrix[row + 1][column + 1] == str && matrix[row + 2][column] == str) {
             return true;
         }
         return false;
