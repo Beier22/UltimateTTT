@@ -42,8 +42,8 @@ public class StartWindowController implements Initializable {
         Stage st = (Stage) btnPVP.getScene().getWindow();
         st.close();
         Stage stage = new Stage();
-        Image icon = new Image("/ultimatettt/gui/image/TTTIcon.png");
-        stage.getIcons().add(icon);
+//        Image icon = new Image("/ultimatettt/gui/image/TTTIcon.png");
+//        stage.getIcons().add(icon);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/Main.fxml"));
         Parent root = (Parent) loader.load();
         MainController controller = loader.getController();

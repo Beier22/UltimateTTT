@@ -17,6 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -93,7 +95,7 @@ public class MainController {
             manager = new GameManager(gameState, bot1, bot2);
         }
     }
-
+    @FXML
     private void handleBtnAction(ActionEvent event){
         if(distinguisher != 3){
         Button btn = (Button) event.getSource();
@@ -229,7 +231,20 @@ public class MainController {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if("WINx".equals(matrix[i][j])){
-                    
+                   Node node = getNodeByRowColumnIndex(i, j, macroBoard);
+                   StackPane pane = (StackPane) node;
+                   pane.getChildren().clear();
+                   Image image = new Image("/ultimatettt/gui/image/xIcon.png");
+                   ImageView iV = new ImageView(image);
+                   pane.getChildren().add(iV); 
+                }
+                else if ("WINo".equals(matrix[i][j])){
+                   Node node = getNodeByRowColumnIndex(i, j, macroBoard);
+                   StackPane pane = (StackPane) node;
+                   pane.getChildren().clear();
+                   Image image = new Image("/ultimatettt/gui/image/oIcon.png");
+                   ImageView iV = new ImageView(image);
+                   pane.getChildren().add(iV); 
                 }
                 }
                 }
