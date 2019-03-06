@@ -59,8 +59,11 @@ public class MainController {
         setDistinguisher(i);
         setLabel();
         createManager();
+        if(distinguisher==3)
+           botVsBot();
+        else{
         String[][] mB = manager.getGameState().getField().getMacroboard();
-        setMacroBoardBorders(mB);
+        setMacroBoardBorders(mB);}
     }
 
     public void setDistinguisher(int i) {
@@ -91,24 +94,25 @@ public class MainController {
         }
     }
 
-    @FXML
-    private void handleBtnAction(ActionEvent event) {
+    private void handleBtnAction(ActionEvent event){
+        if(distinguisher != 3){
         Button btn = (Button) event.getSource();
 
         IMove move = createMove(btn);
+        
         if (manager.updateGame(move)) {
                
             if(distinguisher==2){
                 manager.updateGame();
             }
-            
+           }
+        }
             String[][] mB = manager.getGameState().getField().getMacroboard();
-            //manager.checkWiner(move);
+            
             setMacroBoardBorders(mB);
             setBoard(manager.getGameState().getField().getBoard());
-            setMicroWin();
-        }
-    }
+            setScore();
+            }
 
     private IMove createMove(Button btn) {
         int col;
@@ -128,7 +132,7 @@ public class MainController {
         return new Move(col, row);
     }
 
-    public void setMacroBoardBorders(String[][] matrix) {
+   public void setMacroBoardBorders(String[][] matrix) {
         int x=1;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -220,38 +224,19 @@ public class MainController {
     
     }
     
-    public void setMicroWin(){
+    public void setMacroWin(){
         String[][] matrix = manager.getGameState().getField().getMacroboard();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if(matrix[i][j].equals("WINx")){
-                    String style = "-fx-background-color: black; -fx-text-fill: black;";
-                    setBoardStyle(i, j, style);
-                    int microRow00 = i * 3;
-                    int microCol00 = j * 3;
-                    for (int k = 0; k < 3; k++) {
-                        Node btn = getNodeByRowColumnIndex(microRow00 + k, microCol00 + k, microBoard);
-                        btn.setStyle("-fx-background-color: #00ffff; -fx-text-fill: #00ffff;");
-                        Node btn2 = getNodeByRowColumnIndex(microRow00 + 2 - k, microCol00 + k, microBoard);
-                        btn2.setStyle("-fx-background-color: #00ffff; -fx-text-fill: #00ffff;");
-                        Node pane = getNodeByRowColumnIndex(i, j, macroBoard);
-                        pane.setStyle("-fx-background-color: black;");
-                        
-                    }
+                if("WINx".equals(matrix[i][j])){
                     
-                } else if(matrix[i][j].equals("WINo")){
-                    String style = "-fx-background-color: #50ff00; -fx-text-fill: #50ff00;";
-                    setBoardStyle(i, j, style);
-                    Node btn = getNodeByRowColumnIndex(i*3+1, j*3+1, microBoard);
-                    btn.setStyle("-fx-background-color: black; -fx-text-fill: black;");
-                    Node pane = getNodeByRowColumnIndex(i, j, macroBoard);
-                    pane.setStyle("-fx-background-color: black;");
                 }
-                
+                }
+                }
             }
             
-        }
-    }
+        
+    
     
     public void setBoardStyle(int macroRow, int macroCol, String style){
         int microRow00 = macroRow * 3;
@@ -262,5 +247,38 @@ public class MainController {
                 node.setStyle(style);
             }
         }
+    }
+    public void setScore(){
+        int x = 0;
+        int o = 0;
+        String[][] board = manager.getGameState().getField().getMacroboard();
+        
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if("WINx".equals(board[i][j])){
+                    System.out.println(board[i][j]);
+                    x++;}
+                else if("WINo".equals(board[i][j])){
+                    System.out.println(board[i][j]);
+                    o++;
+                }
+            }
+        }
+        System.out.println("ScoreO: "+o);
+        System.out.println("ScoreX: "+x);
+        xScore.setText(""+x);
+        oScore.setText(""+o);
+
+    }
+    public void botVsBot(){
+        while(true){
+            if(manager.checkMacroWiner() == "x" || manager.checkMacroWiner() == "o")
+                break;
+            manager.updateGame();
+            setBoard(manager.getGameState().getField().getBoard());
+            setScore();
+        }
+    
+    
     }
 }
