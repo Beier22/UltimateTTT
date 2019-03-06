@@ -72,7 +72,7 @@ public class MainController {
         } else if (distinguisher == 2) {
             mainLabel.setText("Human vs Bot");
         } else {
-            mainLabel.setText("Human vs Bot");
+            mainLabel.setText("Bot vs Bot");
         }
     }
 
@@ -96,24 +96,16 @@ public class MainController {
 
         IMove move = createMove(btn);
         if (manager.updateGame(move)) {
-            manager.checkWiner(move);
-            if (isX) {
-                btn.getStyleClass().add("xbtn");
-                btn.setText("X");
-                isX = false;
-
-            } else {
-                btn.getStyleClass().add("ybtn");
-                btn.setText("O");
-                isX = true;
-
+               
+            if(distinguisher==2){
+                manager.updateGame();
             }
-
-        };
-
-        String[][] mB = manager.getGameState().getField().getMacroboard();
-        setMacroBoardBorders(mB);
-
+            
+            String[][] mB = manager.getGameState().getField().getMacroboard();
+            //manager.checkWiner(move);
+            setMacroBoardBorders(mB);
+            setBoard(manager.getGameState().getField().getBoard());
+        }
     }
 
     private IMove createMove(Button btn) {
@@ -143,9 +135,10 @@ public class MainController {
                 System.out.println(x+" matrix"+"["+i+"]"+"["+j+"]"+" "+matrix[i][j]);
                 x++;
                 if (matrix[i][j].equals("-1")) {
-                    if (isX) {
+                    if (manager.getCurrentPlayer()==1) {
                         node.setStyle("-fx-background-color: #00ffff;"); // "blue"
-                    } else {
+                    } 
+                    else {
                         node.setStyle("-fx-background-color: #50ff00;"); // green
                     }
                 } else if (matrix[i][j].equals("0")) {
@@ -193,5 +186,35 @@ public class MainController {
         }
 
         return result;
+    }
+    public void setBoard(String[][] board){
+        ObservableList<Node> buttonList = microBoard.getChildren();
+        for (Node node : buttonList) {
+            Button button = (Button) node;
+            int c;
+            int r;
+            Integer int1 = GridPane.getColumnIndex(node);
+            Integer int2 = GridPane.getRowIndex(node);
+            if (int1 != null) {
+                c = int1;
+            } else {
+                c = 0;
+            }
+            if (int2 != null) {
+                r = int2;
+            } else {
+                r = 0;
+            }
+            if(board[r][c]=="x"){
+                button.setText("x");
+                button.getStyleClass().add("xbtn");
+            }
+            else if(board[r][c]=="o"){
+                button.setText("o");
+                button.getStyleClass().add("ybtn");
+            }
+        }
+    
+    
     }
 }

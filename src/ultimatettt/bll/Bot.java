@@ -5,6 +5,9 @@
  */
 package ultimatettt.bll;
 
+import java.util.List;
+import java.util.Random;
+
 /**
  *
  * @author Revy
@@ -13,7 +16,13 @@ public class Bot implements IBot{
 
     @Override
     public IMove doMove(IGameState state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Random rand = new Random();
+        int x = rand.nextInt(10);
+        int y = rand.nextInt(10);
+        Move move = new Move(x, y);
+        
+        return move;
+        
     }
     
 }

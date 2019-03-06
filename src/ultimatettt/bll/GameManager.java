@@ -90,6 +90,7 @@ public class GameManager {
             updateMacroboard(move);
 
             currentPlayer = (currentPlayer + 1) % 2;
+            System.out.println(currentPlayer);
             return true;
         }
         //Update the currentState
@@ -104,8 +105,7 @@ public class GameManager {
      * @return Returns true if the update was successful, false otherwise.
      */
     public Boolean updateGame() {
-        //Check game mode is set to one of the bot modes.
-        assert (mode != GameMode.HumanVsHuman);
+        
 
         //Check if player is bot, if so, get bot input and update the state based on that.
         if (mode == GameMode.HumanVsBot && currentPlayer == 1) {
@@ -115,15 +115,22 @@ public class GameManager {
             IMove botMove = bot.doMove(currentState);
 
             //Be aware that your bots might perform illegal moves.
+            while(true){
+            if (updateGame(botMove)==false)
+                botMove = bot.doMove(currentState);
+            else
+                break;
+            }
             return updateGame(botMove);
         }
 
-        //Check bot is not equal to null, and throw an exception if it is.
-        assert (bot != null);
-        assert (bot2 != null);
-
-        //TODO: Implement a bot vs bot Update.
-        throw new UnsupportedOperationException("Not supported yet.");
+        else if(mode == GameMode.BotVsBot){
+        
+        
+        
+        }
+        
+            return false;
     }
 
     private Boolean verifyMoveLegality(IMove move) {
@@ -146,7 +153,7 @@ public class GameManager {
             board[move.getY()][move.getX()] = "o";
         }
         currentState.getField().setBoard(board);
-
+        checkWiner(move);
     }
 
     private void updateMacroboard(IMove move) {
@@ -179,11 +186,10 @@ public class GameManager {
     }
 
     public String checkWiner(IMove move) {
-        if (currentState.getField().checkWinner(move.getX() / 3, move.getY() / 3) != "0") {
-            return currentState.getField().checkWinner(move.getX() / 3, move.getY() / 3);
-        } else {
-            return "0";
-        }
+       return currentState.getField().checkWinner(move.getX() / 3, move.getY() / 3);
+    }
+    public int getCurrentPlayer(){
+        return currentPlayer;
     }
 
 }
