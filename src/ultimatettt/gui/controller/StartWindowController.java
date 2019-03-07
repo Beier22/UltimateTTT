@@ -48,6 +48,10 @@ public class StartWindowController implements Initializable {
         Parent root = (Parent) loader.load();
         MainController controller = loader.getController();
         stage.setScene(new Scene(root));
+        stage.setMinHeight(700);
+        stage.setMinWidth(600);
+        stage.setHeight(700);
+        stage.setWidth(600);
         stage.show();
         controller.setGameUp(i, 0, 0);
     }

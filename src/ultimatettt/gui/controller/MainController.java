@@ -238,32 +238,33 @@ public class MainController {
     
     }
     
-   public void setMacroWin(){
+    public void setMacroWin() {
         String[][] matrix = manager.getGameState().getField().getMacroboard();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                
-                   if(matrix[i][j].equals("X")||matrix[i][j].equals("O")){
-                 
-                   Node node = getNodeByRowColumnIndex(i, j, macroBoard);
-                   StackPane pane = (StackPane) node;
-                   Image image;
-                   
-                   if(matrix[i][j].equals("X"))
-                   image = new Image("/ultimatettt/gui/image/xIcon.png");
-                   
-                   else{
-                   image = new Image("/ultimatettt/gui/image/oIcon.png");
-                   }
-                   ImageView iV = new ImageView(image);
-                   pane.getChildren().add(iV);
-                   
-                   for (int k = i*3; k < i*3+3; k++){
-                       for (int l = j*3; l < j*3+3; l++){
-                           Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
-                           microBoard.getChildren().remove(node2);
-                       } 
-                   }
+
+                if (matrix[i][j].equals("X") || matrix[i][j].equals("O")) {
+
+                    Node node = getNodeByRowColumnIndex(i, j, macroBoard);
+                    StackPane pane = (StackPane) node;
+                    Image image;
+
+                    if (matrix[i][j].equals("X")) {
+                        image = new Image("/ultimatettt/gui/image/xIcon.png");
+                        pane.setStyle("-fx-background-color: #303030;");
+                    } else {
+                        image = new Image("/ultimatettt/gui/image/oIcon.png");
+                        pane.setStyle("-fx-background-color: #303030;");
+                    }
+                    ImageView iV = new ImageView(image);
+                    pane.getChildren().add(iV);
+
+                    for (int k = i * 3; k < i * 3 + 3; k++) {
+                        for (int l = j * 3; l < j * 3 + 3; l++) {
+                            Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
+                            microBoard.getChildren().remove(node2);
+                        }
+                    }
                 }
             }
         }
