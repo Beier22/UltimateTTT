@@ -49,7 +49,7 @@ public class StartWindowController implements Initializable {
         MainController controller = loader.getController();
         stage.setScene(new Scene(root));
         stage.show();
-        controller.setGameUp(i);
+        controller.setGameUp(i, 0, 0);
     }
     
     @FXML

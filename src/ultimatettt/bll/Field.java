@@ -163,7 +163,7 @@ public class Field implements IField {
            if (checkRowsColumnsCross("X", 0, 0, macroBoard)) {
                return "x";
            } 
-           else if (checkRowsColumnsCross("X", 0, 0, macroBoard)) {
+           else if (checkRowsColumnsCross("O", 0, 0, macroBoard)) {
                return "o";
            }
            else{

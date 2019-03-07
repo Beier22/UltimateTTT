@@ -42,6 +42,8 @@ import ultimatettt.bll.Move;
 public class MainController {
 
     int distinguisher = 0;
+    int xS = 0;
+    int oS = 0;
     boolean isX = false;
     private Label label;
     private final IGameState gameState;
@@ -61,7 +63,10 @@ public class MainController {
         this.gameState = new GameState();
     }
 
-    public void setGameUp(int i) {
+
+    public void setGameUp(int i, int xS, int oS) {
+        this.xS = xS;
+        this.oS = oS;
         setDistinguisher(i);
         setLabel();
         createManager();
@@ -117,7 +122,6 @@ public class MainController {
             
             setMacroBoardBorders(mB);
             setBoard(manager.getGameState().getField().getBoard());
-            setScore();
             }
 
     private IMove createMove(Button btn) {
@@ -174,9 +178,9 @@ public class MainController {
 
     public Node getNodeByRowColumnIndex(final int row, final int column, GridPane board) {
         Node result = null;
-        ObservableList<Node> childrens = board.getChildren();
+        ObservableList<Node> children = board.getChildren();
 
-        for (Node node : childrens) {
+        for (Node node : children) {
             int c;
             int r;
             Integer int1 = GridPane.getColumnIndex(node);
@@ -200,6 +204,8 @@ public class MainController {
         return result;
     }
     public void setBoard(String[][] board){
+        xScore.setText(""+xS);
+        oScore.setText(""+oS);
         ObservableList<Node> buttonList = microBoard.getChildren();
         Image imageX = new Image("/ultimatettt/gui/image/xIcon.png", 27, 27, true, true);
         Image imageO = new Image("/ultimatettt/gui/image/oIcon.png", 27, 27, true, true);
@@ -228,32 +234,36 @@ public class MainController {
                 button.getStyleClass().add("ybtn");
             }
         }
-    
+        setMacroWin();
     
     }
     
-    public void setMacroWin() {
+   public void setMacroWin(){
         String[][] matrix = manager.getGameState().getField().getMacroboard();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if ("WINx".equals(matrix[i][j]) || "WINo".equals(matrix[i][j])) {
-                    Node node = getNodeByRowColumnIndex(i, j, macroBoard);
-                    StackPane pane = (StackPane) node;
-                    Image image;
-                    if (matrix[i][j].equals("WINx")) {
-                        image = new Image("/ultimatettt/gui/image/xIcon.png");
-                    } else {
-                        image = new Image("/ultimatettt/gui/image/oIcon.png");
-                    }
-                    ImageView iV = new ImageView(image);
-                    pane.getChildren().add(iV);
-
-                    for (int k = i * 3; k < i * 3 + 3; k++) {
-                        for (int l = j * 3; l < j * 3 + 3; l++) {
-                            Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
-                            microBoard.getChildren().remove(node2);
-                        }
-                    }
+                
+                   if(matrix[i][j].equals("X")||matrix[i][j].equals("O")){
+                 
+                   Node node = getNodeByRowColumnIndex(i, j, macroBoard);
+                   StackPane pane = (StackPane) node;
+                   Image image;
+                   
+                   if(matrix[i][j].equals("X"))
+                   image = new Image("/ultimatettt/gui/image/xIcon.png");
+                   
+                   else{
+                   image = new Image("/ultimatettt/gui/image/oIcon.png");
+                   }
+                   ImageView iV = new ImageView(image);
+                   pane.getChildren().add(iV);
+                   
+                   for (int k = i*3; k < i*3+3; k++){
+                       for (int l = j*3; l < j*3+3; l++){
+                           Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
+                           microBoard.getChildren().remove(node2);
+                       } 
+                   }
                 }
             }
         }
@@ -300,15 +310,33 @@ public class MainController {
     }
     public void botVsBot(){
         while(true){
-            if(manager.checkMacroWiner() == "x" || manager.checkMacroWiner() == "o" || manager.getGameState().getField().isFull())
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 3; j++){
+                    System.out.print("|"+manager.getGameState().getField().getMacroboard()[i][j]+"|");
+                }
+                System.out.println("");
+            }
+            System.out.println("----------------------");
+            if(!"0".equals(manager.checkMacroWiner())|| manager.getGameState().getField().isFull()){
+                if(manager.checkMacroWiner() == "x"){
+                    xS++;
+                    System.out.println("xS: "+xS);
+                    xScore.setText(""+xS);
+                }
+                else if(manager.checkMacroWiner() == "o"){
+                    oS++;
+                    System.out.println("oS: "+oS);
+                    oScore.setText(oS+"");
+                }
                 break;
+            }
             manager.updateGame();
             setBoard(manager.getGameState().getField().getBoard());
-            setScore();
         }
     
     
     }
+
 
     @FXML
     private void clickGameMode(ActionEvent event) throws IOException {
@@ -330,10 +358,10 @@ public class MainController {
     @FXML
     private void clickNewGame(ActionEvent event) throws IOException {
         Stage st = (Stage) mainLabel.getScene().getWindow();
-        st.close();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/StartWindow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/Main.fxml"));
         Parent root = (Parent) loader.load();
-        StartWindowController controller = loader.getController();
-        controller.openGameWindow(distinguisher);
+        MainController controller = loader.getController();
+        st.setScene(new Scene(root));
+        controller.setGameUp(distinguisher, xS, oS);
     }
 }

@@ -5,11 +5,8 @@
  */
 package ultimatettt.bll;
 
-import static java.lang.Thread.sleep;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,18 +16,27 @@ public class Bot implements IBot{
 
     @Override
     public IMove doMove(IGameState state) {
-        Random rand = new Random();
-        int x = rand.nextInt(10);
-        int y = rand.nextInt(10);
-        Move move = new Move(x, y);
-        try {
-            sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Bot.class.getName()).log(Level.SEVERE, null, ex);
+        List<IMove> list = state.getField().getAvailableMoves();
+        IMove move;
+        
+        while(true){
+            Random rand = new Random();
+            int x = rand.nextInt(9);
+            int y = rand.nextInt(9);
+            move = new Move(x, y);
+            if(state.getField().isInActiveMicroboard(move.getX(), move.getY())&&isMoveOnList(list, move)){
+                return move;
+            }
+            else
+                continue;
         }
-        
-        return move;
-        
     }
-    
+    public Boolean isMoveOnList(List<IMove> list, IMove move){
+        for (IMove iMove : list) {
+            if(iMove.getX()==move.getX()&&iMove.getY()==move.getY())
+                return true;
+        }
+        return false;
+    }
 }
+
