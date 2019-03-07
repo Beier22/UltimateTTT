@@ -84,7 +84,8 @@ public interface IField {
      */
     String checkMicroWinner(int x, int y);
     void setEveryOtherMacroBoard(int x, int y);
-    public void setActiveMacroBoard(int x, int y);
-
-    public String checkMacroWinner();
+    void setActiveMacroBoard(int x, int y);
+    String checkMacroWinner();
 }
+
+ 

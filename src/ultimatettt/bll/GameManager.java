@@ -90,7 +90,6 @@ public class GameManager {
             updateMacroboard(move);
 
             currentPlayer = (currentPlayer + 1) % 2;
-            System.out.println(currentPlayer);
             return true;
         }
         //Update the currentState
@@ -112,22 +111,27 @@ public class GameManager {
             //Check bot is not equal to null, and throw an exception if it is.
             assert (bot != null);
 
-            IMove botMove = bot.doMove(currentState);
 
             //Be aware that your bots might perform illegal moves.
             while(true){
+            IMove botMove = bot.doMove(currentState);
             if (updateGame(botMove)==false)
-                botMove = bot.doMove(currentState);
+               continue;
             else
                 break;
             }
-            return updateGame(botMove);
+            return true;
         }
 
         else if(mode == GameMode.BotVsBot){
             
             while(true){
-            IMove botMove = bot.doMove(currentState);
+            IMove botMove;
+            if(currentPlayer == 0){
+                botMove = bot.doMove(currentState);
+            }
+            else
+                botMove = bot2.doMove(currentState);
             if (updateGame(botMove)==false)
                 continue;
             else
@@ -135,15 +139,6 @@ public class GameManager {
                 break;
             }
             
-            while(true){
-            IMove bot2Move = bot2.doMove(currentState);
-            if (updateGame(bot2Move)==false)
-                continue;
-            else
-                updateGame(bot2Move);
-                break;
-            }
-        
         
             return true;
     }
@@ -151,9 +146,6 @@ public class GameManager {
     }
 
     private Boolean verifyMoveLegality(IMove move) {
-        //  System.out.println("Odpala verify - GameManager");
-        //Test if the move is legal   
-        //NOTE: should also check whether the move is placed on an occupied spot.
         if (checkIfButtonIsInTheList(move)) {
             return currentState.getField().isInActiveMicroboard(move.getX(), move.getY());
         } else {

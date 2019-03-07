@@ -104,8 +104,8 @@ public class Field implements IField {
     @Override
     public Boolean isMicroboardFull(int x, int y) {
 
-        for (int i = y * 3; i <= (y * 3) + 2; i++) {
-            for (int j = x * 3; j <= (x * 3) + 2; j++) {
+        for (int i = y; i < y + 2; i++) {
+            for (int j = x; j < x + 2; j++) {
                 if (board[i][j].equals(".")) {
                     return false;
                 }
@@ -118,7 +118,7 @@ public class Field implements IField {
     public void setActiveMacroBoard(int x, int y) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if ("-1".equals(macroBoard[i][j]) && macroBoard[i][j] != "WINo" && macroBoard[i][j] != "WINx") {
+                if ("-1".equals(macroBoard[i][j])) {
                     macroBoard[i][j] = "0";
                 }
 
@@ -131,18 +131,14 @@ public class Field implements IField {
     public void setEveryOtherMacroBoard(int x, int y) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!isMicroboardFull(j, i) && "0".equals(checkMicroWinner(j, i))) {
+                if ("0".equals(checkMicroWinner(j, i))) {
                     macroBoard[i][j] = "-1";
                 } else {
-                    if (!macroBoard[i][j].equals("WINo") && !macroBoard[i][j].equals("WINx")) {
+                    if (macroBoard[i][j].equals("-1")) {
                         macroBoard[i][j] = "0";
                     }
                 }
             }
-        }
-        if (!"WINo".equals(macroBoard[y][x]) && !"WINx".equals(macroBoard[y][x]) && "0".equals(checkMicroWinner(x, y))) {
-            macroBoard[y][x] = "-1";
-
         }
     }
     
@@ -152,24 +148,38 @@ public class Field implements IField {
            int column = x * 3;
 
            if (checkRowsColumnsCross("x", row, column, board)) {
-               macroBoard[row / 3][column / 3] = "WINx";
-               return "x";
-           } else if (checkRowsColumnsCross("o", row, column, board)) {
-               macroBoard[row / 3][column / 3] = "WINo";
-               return "o";
-           }
+               macroBoard[row / 3][column / 3] = "X";
+               return "x";} 
+               else if (checkRowsColumnsCross("o", row, column, board)) {
+               macroBoard[row / 3][column / 3] = "O";
+               return "o";}
+               else if(isMicroboardFull(column, row)){
+               macroBoard[row / 3][column / 3] = "T";
+               return "tie";}
            return "0";
        }
        
        public String checkMacroWinner(){
-           if (checkRowsColumnsCross("WINx", 0, 0, macroBoard)) {
+           if (checkRowsColumnsCross("X", 0, 0, macroBoard)) {
                return "x";
            } 
-           else if (checkRowsColumnsCross("WINo", 0, 0, macroBoard)) {
+           else if (checkRowsColumnsCross("X", 0, 0, macroBoard)) {
                return "o";
            }
-           return "0";
+           else{
+           for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (macroBoard[i][j].equals("0")||macroBoard[i][j].equals("-1")) {
+                    return "0";
+                }
+            }
+                }
+           } 
+                  
+           return "tie";
        }
+       
+       
        
     public Boolean checkRowsColumnsCross(String str, int row, int column, String[][] matrix) {
         for (int i = 0; i < 3; i++) {

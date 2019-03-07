@@ -9,7 +9,7 @@ package ultimatettt.bll;
  *
  * @author Revy
  */
-public class GameState implements IGameState{
+public final class GameState implements IGameState{
 
     private final IField field;
     private int moveNumber;
@@ -22,6 +22,7 @@ public class GameState implements IGameState{
         field.setBoard(board);
         field.setMacroboard(macroBoard);
         field.clearBoard();
+        setMoveNumber(1);
     }
     
     @Override
