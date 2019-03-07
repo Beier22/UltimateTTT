@@ -37,7 +37,7 @@ public class StartWindowController implements Initializable {
         // TODO
     }    
     
-    private void openGameWindow(int i) throws IOException{
+    public void openGameWindow(int i) throws IOException{
         
         Stage st = (Stage) btnPVP.getScene().getWindow();
         st.close();

@@ -10,7 +10,7 @@ and open the template in the editor.
 @import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
 #bigGrid Line{
-    -fx-stroke: #303030;
+    -fx-stroke: black;
     -fx-stroke-width: 2;
 }
 
@@ -20,7 +20,7 @@ and open the template in the editor.
 
 .label{
     -fx-font-family: 'Luckiest Guy', cursive;
-    -fx-text-fill: white;
+    -fx-text-fill: #50ff00;
     -fx-font-size: 27;
 }
 
@@ -47,4 +47,30 @@ and open the template in the editor.
     
     -fx-text-fill: #50ff00;
     -fx-background-color: black;
+}
+
+#btnNewGame{
+    -fx-text-fill: #323232;
+    -fx-font-size: 20;
+    -fx-background-color: #50ff00;
+    -fx-background-radius: 22;
+}
+
+#btnNewGame:hover{
+    -fx-background-color: #9fff72;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+#btnGameMode{
+    -fx-text-fill: #323232;
+    -fx-font-size: 20;
+    -fx-background-color: #50ff00;
+    -fx-background-radius: 22;
+}
+
+#btnGameMode:hover{
+    -fx-background-color: #9fff72;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }

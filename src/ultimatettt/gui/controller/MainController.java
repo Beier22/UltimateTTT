@@ -5,6 +5,7 @@
  */
 package ultimatettt.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -22,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import ultimatettt.bll.Bot;
 import ultimatettt.bll.GameManager;
 import ultimatettt.bll.GameState;
@@ -144,10 +148,10 @@ public class MainController {
                 x++;
                 if (matrix[i][j].equals("-1")) {
                     if (manager.getCurrentPlayer()==1) {
-                        node.setStyle("-fx-background-color: #e25041; -fx-border-width: 2; -fx-border-color: #1abc9c;"); // "blue"
+                        node.setStyle("-fx-background-color: #e25041; -fx-border-width: 2; -fx-border-color: black;"); // "blue"
                     } 
                     else {
-                        node.setStyle("-fx-background-color: #1abc9c; -fx-border-width: 2; -fx-border-color: #e25041;"); // green
+                        node.setStyle("-fx-background-color: #1abc9c; -fx-border-width: 2; -fx-border-color: black;"); // green
                     }
                 } else if (matrix[i][j].equals("0")) {
                     node.setStyle("-fx-background-color: #303030;");
@@ -228,27 +232,28 @@ public class MainController {
     
     }
     
-    public void setMacroWin(){
+    public void setMacroWin() {
         String[][] matrix = manager.getGameState().getField().getMacroboard();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if("WINx".equals(matrix[i][j])||"WINo".equals(matrix[i][j])){
-                   Node node = getNodeByRowColumnIndex(i, j, macroBoard);
-                   StackPane pane = (StackPane) node;
-                   Image image;
-                   if(matrix[i][j].equals("WINx"))
-                   image = new Image("/ultimatettt/gui/image/xIcon.png");
-                   else
-                   image = new Image("/ultimatettt/gui/image/oIcon.png");
-                   ImageView iV = new ImageView(image);
-                   pane.getChildren().add(iV);
-                   
-                   for (int k = i*3; k < i*3+3; k++){
-                       for (int l = j*3; l < j*3+3; l++){
-                           Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
-                           microBoard.getChildren().remove(node2);
-                       } 
-                   }
+                if ("WINx".equals(matrix[i][j]) || "WINo".equals(matrix[i][j])) {
+                    Node node = getNodeByRowColumnIndex(i, j, macroBoard);
+                    StackPane pane = (StackPane) node;
+                    Image image;
+                    if (matrix[i][j].equals("WINx")) {
+                        image = new Image("/ultimatettt/gui/image/xIcon.png");
+                    } else {
+                        image = new Image("/ultimatettt/gui/image/oIcon.png");
+                    }
+                    ImageView iV = new ImageView(image);
+                    pane.getChildren().add(iV);
+
+                    for (int k = i * 3; k < i * 3 + 3; k++) {
+                        for (int l = j * 3; l < j * 3 + 3; l++) {
+                            Node node2 = getNodeByRowColumnIndex(k, l, microBoard);
+                            microBoard.getChildren().remove(node2);
+                        }
+                    }
                 }
             }
         }
@@ -303,5 +308,32 @@ public class MainController {
         }
     
     
+    }
+
+    @FXML
+    private void clickGameMode(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/ultimatettt/gui/view/StartWindow.fxml"));
+        Stage st = (Stage) mainLabel.getScene().getWindow();
+        st.close();
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        Image icon = new Image("/ultimatettt/gui/image/TTTIcon.png");
+        stage.getIcons().add(icon);
+        stage.setMinHeight(400);
+        stage.setMinWidth(700);
+        stage.setHeight(400);
+        stage.setWidth(700);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void clickNewGame(ActionEvent event) throws IOException {
+        Stage st = (Stage) mainLabel.getScene().getWindow();
+        st.close();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ultimatettt/gui/view/StartWindow.fxml"));
+        Parent root = (Parent) loader.load();
+        StartWindowController controller = loader.getController();
+        controller.openGameWindow(distinguisher);
     }
 }

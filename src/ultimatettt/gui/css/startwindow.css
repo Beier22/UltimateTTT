@@ -28,12 +28,13 @@ and open the template in the editor.
 }
 
 .button{
+    
     -fx-wrap-text: true;
     -fx-font-size: 20;
     -fx-font-family: 'Luckiest Guy', cursive;
-    -fx-border-color: black;
+    /*-fx-border-color: black;
     -fx-border-width: 5;
-    -fx-border-radius: 15;
+    -fx-border-radius: 15;*/
     -fx-background-color: #50ff00;
     -fx-background-radius: 22;
 }
